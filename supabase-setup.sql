@@ -1,5 +1,5 @@
 -- ===========================================
--- バードカウンター Supabase セットアップSQL
+-- ガチクーポンカウンター Supabase セットアップSQL
 -- ===========================================
 
 -- 店舗マスタ
@@ -13,6 +13,7 @@ CREATE TABLE stores (
 CREATE TABLE counts (
   id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
   store_id UUID NOT NULL REFERENCES stores(id),
+  branch_number INTEGER NOT NULL DEFAULT 1 CHECK (branch_number BETWEEN 1 AND 5),
   business_date DATE NOT NULL,
   category TEXT NOT NULL CHECK (category IN (
     'beginners_coupon_out',
@@ -24,7 +25,7 @@ CREATE TABLE counts (
   )),
   count INTEGER NOT NULL DEFAULT 0 CHECK (count >= 0),
   updated_at TIMESTAMPTZ DEFAULT now(),
-  UNIQUE (store_id, business_date, category)
+  UNIQUE (store_id, branch_number, business_date, category)
 );
 
 -- updated_at 自動更新トリガー
@@ -59,12 +60,4 @@ CREATE POLICY "Allow update counts" ON counts
   FOR UPDATE USING (true);
 
 -- インデックス
-CREATE INDEX idx_counts_store_date ON counts (store_id, business_date);
-
--- ===========================================
--- サンプル店舗データ（必要に応じて変更してください）
--- ===========================================
--- INSERT INTO stores (name) VALUES
---   ('渋谷店'),
---   ('新宿店'),
---   ('池袋店');
+CREATE INDEX idx_counts_store_branch_date ON counts (store_id, branch_number, business_date);

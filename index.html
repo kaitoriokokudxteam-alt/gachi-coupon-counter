@@ -3,27 +3,64 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>バードカウンター</title>
+<title>ガチクーポンカウンター</title>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DotGothic16&display=swap" rel="stylesheet">
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
 
   body {
-    font-family: 'Segoe UI', 'Yu Gothic UI', 'Meiryo', sans-serif;
-    background: linear-gradient(135deg, #e8f5e9 0%, #f1f8e9 50%, #fff8e1 100%);
+    font-family: 'DotGothic16', sans-serif;
+    background: #0a0a2e;
     min-height: 100vh;
-    color: #3e2723;
+    color: #e0e0e0;
+    position: relative;
+    overflow-x: hidden;
+  }
+
+  /* ===== 背景：星空 ===== */
+  body::before {
+    content: '';
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background:
+      radial-gradient(1px 1px at 10% 20%, rgba(255,255,200,0.8), transparent),
+      radial-gradient(1px 1px at 30% 60%, rgba(255,255,200,0.6), transparent),
+      radial-gradient(1.5px 1.5px at 50% 10%, rgba(255,255,200,0.9), transparent),
+      radial-gradient(1px 1px at 70% 40%, rgba(255,255,200,0.5), transparent),
+      radial-gradient(1px 1px at 90% 80%, rgba(255,255,200,0.7), transparent),
+      radial-gradient(1.5px 1.5px at 15% 85%, rgba(255,255,200,0.6), transparent),
+      radial-gradient(1px 1px at 45% 45%, rgba(255,255,200,0.4), transparent),
+      radial-gradient(1px 1px at 80% 15%, rgba(255,255,200,0.8), transparent),
+      radial-gradient(1px 1px at 60% 75%, rgba(255,255,200,0.5), transparent),
+      radial-gradient(1.5px 1.5px at 25% 35%, rgba(255,255,200,0.7), transparent);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* ===== RPGウィンドウベース ===== */
+  .rpg-window {
+    border: 3px solid #c8a84e;
+    border-radius: 8px;
+    background: rgba(10, 10, 50, 0.92);
+    box-shadow:
+      inset 0 0 0 2px rgba(200, 168, 78, 0.3),
+      0 4px 20px rgba(0, 0, 0, 0.5);
+    position: relative;
+    z-index: 1;
   }
 
   /* ===== ヘッダー ===== */
   .header {
-    background: linear-gradient(135deg, #2e7d32, #388e3c);
-    color: white;
-    padding: 16px 24px;
+    border-bottom: 3px solid #c8a84e;
+    background: linear-gradient(180deg, rgba(20,15,60,0.95), rgba(10,10,46,0.98));
+    padding: 12px 24px;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    position: relative;
+    z-index: 1;
   }
   .header-left {
     display: flex;
@@ -31,102 +68,115 @@
     gap: 12px;
   }
   .header-icon {
-    font-size: 36px;
+    font-size: 32px;
     line-height: 1;
   }
   .header-title {
-    font-size: 24px;
+    font-size: 22px;
     font-weight: bold;
-    letter-spacing: 2px;
+    color: #ffd700;
+    text-shadow: 0 0 8px rgba(255, 215, 0, 0.4);
+    letter-spacing: 3px;
   }
   .header-subtitle {
-    font-size: 12px;
-    opacity: 0.85;
+    font-size: 11px;
+    color: #8888aa;
   }
   .header-right {
     text-align: right;
   }
   .store-name {
-    font-size: 18px;
+    font-size: 16px;
     font-weight: bold;
+    color: #ffd700;
     cursor: pointer;
     display: flex;
     align-items: center;
     gap: 6px;
+    text-shadow: 0 0 6px rgba(255, 215, 0, 0.3);
   }
-  .store-name:hover { opacity: 0.8; }
+  .store-name:hover { color: #ffe44d; }
   .business-date {
-    font-size: 14px;
-    opacity: 0.9;
+    font-size: 13px;
+    color: #8888aa;
     margin-top: 2px;
   }
 
   /* ===== メインコンテンツ ===== */
   .main {
     max-width: 900px;
-    margin: 24px auto;
-    padding: 0 16px;
+    margin: 16px auto;
+    padding: 0 12px;
+    position: relative;
+    z-index: 1;
   }
 
-  /* カウンターペア（配布＋戻り） */
+  /* ===== カウンターペア ===== */
   .counter-pair {
-    background: white;
-    border-radius: 16px;
-    box-shadow: 0 3px 12px rgba(0,0,0,0.08);
-    margin-bottom: 20px;
-    overflow: hidden;
+    margin-bottom: 16px;
   }
   .pair-header {
-    background: linear-gradient(135deg, #4caf50, #66bb6a);
-    color: white;
     padding: 10px 20px;
-    font-size: 16px;
+    font-size: 15px;
     font-weight: bold;
     display: flex;
     align-items: center;
     gap: 8px;
+    border-bottom: 2px solid rgba(200, 168, 78, 0.4);
   }
-  .pair-header.coupon { background: linear-gradient(135deg, #ef6c00, #ff9800); }
-  .pair-header.meishi { background: linear-gradient(135deg, #1565c0, #42a5f5); }
-  .pair-header.dm { background: linear-gradient(135deg, #6a1b9a, #ab47bc); }
+  .pair-header.coupon {
+    color: #ff6b35;
+    text-shadow: 0 0 8px rgba(255, 107, 53, 0.4);
+    background: linear-gradient(90deg, rgba(255,107,53,0.15), transparent);
+  }
+  .pair-header.meishi {
+    color: #4dc9f6;
+    text-shadow: 0 0 8px rgba(77, 201, 246, 0.4);
+    background: linear-gradient(90deg, rgba(77,201,246,0.15), transparent);
+  }
+  .pair-header.dm {
+    color: #f5e642;
+    text-shadow: 0 0 8px rgba(245, 230, 66, 0.4);
+    background: linear-gradient(90deg, rgba(245,230,66,0.15), transparent);
+  }
 
   .pair-body {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 0;
   }
   .counter-card {
-    padding: 20px;
+    padding: 16px;
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 12px;
-    border-right: 1px solid #e0e0e0;
+    gap: 10px;
+    border-right: 1px solid rgba(200, 168, 78, 0.2);
   }
   .counter-card:last-child { border-right: none; }
   .counter-card.return-card {
-    background: #fafafa;
+    background: rgba(255, 255, 255, 0.02);
   }
 
   .card-label {
-    font-size: 14px;
-    font-weight: 600;
-    color: #616161;
+    font-size: 13px;
+    color: #aaa;
     display: flex;
     align-items: center;
     gap: 6px;
   }
-  .card-label .arrow-out { color: #e53935; }
-  .card-label .arrow-in { color: #2e7d32; }
+  .card-label .arrow-out { color: #ff6b6b; }
+  .card-label .arrow-in { color: #51cf66; }
 
   .count-display {
-    font-size: 56px;
+    font-size: 52px;
     font-weight: bold;
-    color: #212121;
+    color: #ffffff;
+    text-shadow: 0 0 12px rgba(255, 255, 255, 0.3);
     min-width: 100px;
     text-align: center;
     line-height: 1;
     user-select: none;
+    transition: transform 0.15s;
   }
 
   .btn-group {
@@ -134,67 +184,72 @@
     gap: 12px;
   }
   .btn {
-    border: none;
-    border-radius: 50%;
+    border: 2px solid #c8a84e;
+    border-radius: 8px;
     width: 56px;
     height: 56px;
-    font-size: 28px;
+    font-size: 24px;
     font-weight: bold;
+    font-family: 'DotGothic16', sans-serif;
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: transform 0.1s, box-shadow 0.1s;
-    color: white;
+    transition: all 0.12s;
+    position: relative;
+    overflow: hidden;
   }
-  .btn:active {
-    transform: scale(0.92);
-  }
+  .btn:active { transform: scale(0.92); }
+
   .btn-plus {
-    background: linear-gradient(135deg, #43a047, #66bb6a);
-    box-shadow: 0 3px 8px rgba(67,160,71,0.35);
+    background: linear-gradient(180deg, #1a4a2e, #0d2818);
+    color: #51cf66;
+    text-shadow: 0 0 8px rgba(81, 207, 102, 0.5);
+    border-color: #51cf66;
   }
   .btn-plus:hover {
-    box-shadow: 0 4px 12px rgba(67,160,71,0.5);
+    background: linear-gradient(180deg, #1f5a36, #12331e);
+    box-shadow: 0 0 12px rgba(81, 207, 102, 0.3);
   }
   .btn-minus {
-    background: linear-gradient(135deg, #e53935, #ef5350);
-    box-shadow: 0 3px 8px rgba(229,57,53,0.35);
+    background: linear-gradient(180deg, #4a1a1a, #281010);
+    color: #ff6b6b;
+    text-shadow: 0 0 8px rgba(255, 107, 107, 0.5);
+    border-color: #ff6b6b;
   }
   .btn-minus:hover {
-    box-shadow: 0 4px 12px rgba(229,57,53,0.5);
+    background: linear-gradient(180deg, #5a1f1f, #331515);
+    box-shadow: 0 0 12px rgba(255, 107, 107, 0.3);
   }
 
   /* ===== 合計バー ===== */
   .total-bar {
-    background: white;
-    border-radius: 16px;
-    box-shadow: 0 3px 12px rgba(0,0,0,0.08);
-    padding: 16px 24px;
-    margin-bottom: 20px;
+    padding: 14px 20px;
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 16px;
+    gap: 12px;
     text-align: center;
+    border-top: 2px solid rgba(200, 168, 78, 0.4);
+    margin-top: 4px;
   }
-  .total-item {
-    padding: 8px;
-  }
+  .total-item { padding: 6px; }
   .total-label {
-    font-size: 12px;
-    color: #757575;
+    font-size: 11px;
+    color: #8888aa;
     margin-bottom: 4px;
   }
   .total-value {
     font-size: 20px;
     font-weight: bold;
+    color: #ffd700;
+    text-shadow: 0 0 8px rgba(255, 215, 0, 0.3);
   }
 
   /* ===== モーダル ===== */
   .modal-overlay {
     position: fixed;
     top: 0; left: 0; right: 0; bottom: 0;
-    background: rgba(0,0,0,0.5);
+    background: rgba(0, 0, 0, 0.75);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -202,27 +257,31 @@
   }
   .modal-overlay.hidden { display: none; }
   .modal {
-    background: white;
-    border-radius: 20px;
-    padding: 32px;
+    border: 3px solid #c8a84e;
+    border-radius: 12px;
+    background: rgba(10, 10, 50, 0.97);
+    box-shadow:
+      inset 0 0 0 2px rgba(200, 168, 78, 0.3),
+      0 8px 40px rgba(0, 0, 0, 0.6);
+    padding: 28px;
     max-width: 420px;
     width: 90%;
-    box-shadow: 0 8px 32px rgba(0,0,0,0.2);
     text-align: center;
   }
+  .modal-icon {
+    font-size: 48px;
+    margin-bottom: 10px;
+  }
   .modal h2 {
-    font-size: 22px;
-    margin-bottom: 8px;
-    color: #2e7d32;
+    font-size: 20px;
+    color: #ffd700;
+    text-shadow: 0 0 8px rgba(255, 215, 0, 0.3);
+    margin-bottom: 6px;
   }
   .modal p {
-    font-size: 14px;
-    color: #757575;
-    margin-bottom: 20px;
-  }
-  .modal .bird-icon {
-    font-size: 48px;
-    margin-bottom: 12px;
+    font-size: 13px;
+    color: #8888aa;
+    margin-bottom: 16px;
   }
   .store-list {
     list-style: none;
@@ -230,79 +289,136 @@
     overflow-y: auto;
   }
   .store-list li {
-    padding: 14px 20px;
-    border: 2px solid #e0e0e0;
-    border-radius: 12px;
-    margin-bottom: 8px;
+    padding: 12px 16px;
+    border: 2px solid rgba(200, 168, 78, 0.4);
+    border-radius: 8px;
+    margin-bottom: 6px;
     cursor: pointer;
-    font-size: 16px;
-    font-weight: 600;
-    transition: all 0.15s;
+    font-size: 15px;
+    color: #e0e0e0;
+    transition: all 0.12s;
+    background: rgba(255, 255, 255, 0.03);
   }
   .store-list li:hover {
-    border-color: #4caf50;
-    background: #e8f5e9;
-    color: #2e7d32;
+    border-color: #ffd700;
+    color: #ffd700;
+    background: rgba(255, 215, 0, 0.08);
+    text-shadow: 0 0 6px rgba(255, 215, 0, 0.3);
+  }
+
+  /* 枝番選択ボタン */
+  .branch-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 10px;
+    margin-top: 12px;
+  }
+  .branch-btn {
+    border: 2px solid rgba(200, 168, 78, 0.5);
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.03);
+    color: #e0e0e0;
+    font-family: 'DotGothic16', sans-serif;
+    font-size: 22px;
+    font-weight: bold;
+    padding: 16px 0;
+    cursor: pointer;
+    transition: all 0.12s;
+  }
+  .branch-btn:hover {
+    border-color: #ffd700;
+    color: #ffd700;
+    background: rgba(255, 215, 0, 0.1);
+    text-shadow: 0 0 8px rgba(255, 215, 0, 0.4);
+    box-shadow: 0 0 12px rgba(255, 215, 0, 0.15);
   }
 
   /* ===== エラー・ローディング ===== */
   .loading {
     text-align: center;
     padding: 60px;
-    font-size: 18px;
-    color: #757575;
+    font-size: 16px;
+    color: #8888aa;
+    position: relative;
+    z-index: 1;
   }
   .loading .spinner {
-    font-size: 40px;
-    animation: spin 1s linear infinite;
+    font-size: 36px;
+    animation: spin 1.5s linear infinite;
     display: inline-block;
     margin-bottom: 12px;
   }
   @keyframes spin { to { transform: rotate(360deg); } }
 
   .error-banner {
-    background: #fff3e0;
-    border: 1px solid #ff9800;
-    border-radius: 12px;
-    padding: 12px 20px;
-    margin: 16px auto;
+    border: 2px solid #ff6b6b;
+    border-radius: 8px;
+    padding: 10px 16px;
+    margin: 12px auto;
     max-width: 900px;
-    color: #e65100;
-    font-size: 14px;
+    color: #ff6b6b;
+    font-size: 13px;
     display: flex;
     align-items: center;
     gap: 8px;
+    background: rgba(255, 107, 107, 0.1);
+    position: relative;
+    z-index: 1;
   }
   .error-banner.hidden { display: none; }
-  .config-banner.hidden { display: none; }
 
   .config-banner {
-    background: #e3f2fd;
-    border: 1px solid #2196f3;
-    border-radius: 12px;
-    padding: 16px 20px;
-    margin: 16px auto;
+    border: 2px solid #4dc9f6;
+    border-radius: 8px;
+    padding: 14px 18px;
+    margin: 12px auto;
     max-width: 900px;
-    color: #1565c0;
-    font-size: 14px;
+    color: #4dc9f6;
+    font-size: 13px;
     line-height: 1.6;
+    background: rgba(77, 201, 246, 0.08);
+    position: relative;
+    z-index: 1;
   }
+  .config-banner.hidden { display: none; }
 
-  /* フッター */
+  /* ===== フッター ===== */
   .footer {
     text-align: center;
-    padding: 20px;
-    color: #9e9e9e;
-    font-size: 12px;
+    padding: 16px;
+    color: #555577;
+    font-size: 11px;
+    position: relative;
+    z-index: 1;
   }
 
-  /* レスポンシブ */
+  /* ===== カウント変更アニメーション ===== */
+  @keyframes dmg-pop {
+    0% { transform: scale(1); }
+    30% { transform: scale(1.3); text-shadow: 0 0 20px rgba(255,255,255,0.6); }
+    100% { transform: scale(1); }
+  }
+  .count-pop {
+    animation: dmg-pop 0.25s ease-out;
+  }
+
+  /* ===== スクロールバーRPG風 ===== */
+  ::-webkit-scrollbar { width: 8px; }
+  ::-webkit-scrollbar-track { background: rgba(10, 10, 50, 0.5); }
+  ::-webkit-scrollbar-thumb {
+    background: rgba(200, 168, 78, 0.5);
+    border-radius: 4px;
+  }
+  ::-webkit-scrollbar-thumb:hover { background: rgba(200, 168, 78, 0.8); }
+
+  /* ===== レスポンシブ ===== */
   @media (max-width: 600px) {
     .header { flex-direction: column; gap: 8px; text-align: center; }
     .header-right { text-align: center; }
-    .count-display { font-size: 40px; }
-    .btn { width: 48px; height: 48px; font-size: 24px; }
+    .count-display { font-size: 38px; }
+    .btn { width: 48px; height: 48px; font-size: 20px; }
     .total-bar { grid-template-columns: 1fr; }
+    .branch-grid { grid-template-columns: repeat(5, 1fr); }
   }
 </style>
 </head>
@@ -311,16 +427,16 @@
 <!-- ===== ヘッダー ===== -->
 <div class="header">
   <div class="header-left">
-    <span class="header-icon">🐦</span>
+    <span class="header-icon">🔢</span>
     <div>
-      <div class="header-title">バードカウンター</div>
-      <div class="header-subtitle">Bird Counter for MOOV</div>
+      <div class="header-title">ガチクーポンカウンター</div>
+      <div class="header-subtitle">Gachi Coupon Counter for MOOV</div>
     </div>
   </div>
   <div class="header-right">
     <div class="store-name" id="storeNameDisplay" onclick="showStoreModal()" title="クリックで店舗変更">
       <span id="storeNameText">---</span>
-      <span style="font-size:12px">&#9660;</span>
+      <span style="font-size:11px">&#9660;</span>
     </div>
     <div class="business-date" id="businessDateDisplay">---</div>
   </div>
@@ -332,7 +448,7 @@
   <span id="errorMessage"></span>
 </div>
 
-<!-- 設定未完了バナー（デフォルト表示、設定済みならJSで非表示に） -->
+<!-- 設定未完了バナー -->
 <div class="config-banner" id="configBanner">
   <strong>&#9881; Supabase未設定</strong><br>
   index.html内の <code>SUPABASE_URL</code> と <code>SUPABASE_ANON_KEY</code> を設定してください。<br>
@@ -344,17 +460,33 @@
   <div class="loading" id="loadingIndicator">
     <div style="font-size:48px;margin-bottom:16px">&#128295;</div>
     <div>Supabaseの設定が必要です</div>
-    <div style="font-size:14px;margin-top:8px;color:#9e9e9e">README.mdの手順に従って設定してください</div>
+    <div style="font-size:13px;margin-top:8px;color:#555577">README.mdの手順に従って設定してください</div>
   </div>
 </div>
 
 <!-- ===== 店舗選択モーダル ===== -->
 <div class="modal-overlay hidden" id="storeModal">
   <div class="modal">
-    <div class="bird-icon">🦉</div>
+    <div class="modal-icon">🏪</div>
     <h2>店舗を選択してください</h2>
     <p>カウントデータは選択した店舗に紐づけて保存されます</p>
     <ul class="store-list" id="storeList"></ul>
+  </div>
+</div>
+
+<!-- ===== 枝番選択モーダル ===== -->
+<div class="modal-overlay hidden" id="branchModal">
+  <div class="modal">
+    <div class="modal-icon">🔢</div>
+    <h2>カウンター番号を選択</h2>
+    <p id="branchStoreLabel">---</p>
+    <div class="branch-grid">
+      <button class="branch-btn" onclick="selectBranch(1)">1</button>
+      <button class="branch-btn" onclick="selectBranch(2)">2</button>
+      <button class="branch-btn" onclick="selectBranch(3)">3</button>
+      <button class="branch-btn" onclick="selectBranch(4)">4</button>
+      <button class="branch-btn" onclick="selectBranch(5)">5</button>
+    </div>
   </div>
 </div>
 
@@ -362,7 +494,6 @@
 // ===========================================
 // 設定 - Supabase接続情報
 // ===========================================
-// ★★★ 以下を自分のSupabaseプロジェクトの値に変更してください ★★★
 const SUPABASE_URL = 'https://xjyqbxvthjjimrvcvaih.supabase.co';
 const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhqeXFieHZ0aGpqaW1ydmN2YWloIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM0MzkzNzAsImV4cCI6MjA4OTAxNTM3MH0.VlWbEr4HB66oJrdg55i9z8Llvi87BGmnpHgDLLU8sos';
 
@@ -372,7 +503,7 @@ const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBh
 const CATEGORIES = [
   {
     group: 'ビギナーズクーポン',
-    icon: '🎫',
+    icon: '🔥',
     colorClass: 'coupon',
     items: [
       { key: 'beginners_coupon_out', label: '配布', direction: 'out' },
@@ -381,7 +512,7 @@ const CATEGORIES = [
   },
   {
     group: '名刺',
-    icon: '💳',
+    icon: '❄️',
     colorClass: 'meishi',
     items: [
       { key: 'meishi_out', label: '配布', direction: 'out' },
@@ -390,7 +521,7 @@ const CATEGORIES = [
   },
   {
     group: 'お礼DM',
-    icon: '💌',
+    icon: '⚡',
     colorClass: 'dm',
     items: [
       { key: 'thanks_dm_out', label: '配布', direction: 'out' },
@@ -404,6 +535,7 @@ const CATEGORIES = [
 // ===========================================
 let db = null;
 let currentStore = null;
+let currentBranch = 1;
 let counters = {};
 let isConfigured = false;
 
@@ -412,7 +544,6 @@ let isConfigured = false;
 // ===========================================
 function getBusinessDate() {
   const now = new Date();
-  // 7時より前なら前日
   if (now.getHours() < 7) {
     const yesterday = new Date(now);
     yesterday.setDate(yesterday.getDate() - 1);
@@ -437,17 +568,14 @@ function formatDateJP(dateStr) {
 // 初期化
 // ===========================================
 async function init() {
-  // Supabase設定チェック
   if (SUPABASE_URL === 'YOUR_SUPABASE_URL' || SUPABASE_ANON_KEY === 'YOUR_SUPABASE_ANON_KEY') {
     isConfigured = false;
-    // デフォルトで未設定状態が表示されるのでそのままreturn
     return;
   }
 
-  // 設定済み: バナーを隠してローディング表示に切り替え
   document.getElementById('configBanner').classList.add('hidden');
   document.getElementById('loadingIndicator').innerHTML =
-    '<div class="spinner">&#x1F426;</div><div>データを読み込んでいます...</div>';
+    '<div class="spinner">&#x1F50E;</div><div>データを読み込んでいます...</div>';
 
   isConfigured = true;
 
@@ -458,17 +586,17 @@ async function init() {
     return;
   }
 
-  // 営業日表示
   const businessDate = getBusinessDate();
   document.getElementById('businessDateDisplay').textContent = formatDateJP(businessDate);
 
-  // 店舗チェック
-  const savedStoreId = localStorage.getItem('bird_counter_store_id');
-  const savedStoreName = localStorage.getItem('bird_counter_store_name');
+  const savedStoreId = localStorage.getItem('gachi_counter_store_id');
+  const savedStoreName = localStorage.getItem('gachi_counter_store_name');
+  const savedBranch = localStorage.getItem('gachi_counter_branch');
 
-  if (savedStoreId && savedStoreName) {
+  if (savedStoreId && savedStoreName && savedBranch) {
     currentStore = { id: savedStoreId, name: savedStoreName };
-    document.getElementById('storeNameText').textContent = savedStoreName;
+    currentBranch = parseInt(savedBranch);
+    document.getElementById('storeNameText').textContent = `${savedStoreName} #${currentBranch}`;
     await loadCounters();
   } else {
     await showStoreModal();
@@ -483,7 +611,7 @@ async function showStoreModal() {
 
   const modal = document.getElementById('storeModal');
   const list = document.getElementById('storeList');
-  list.innerHTML = '<li style="color:#999;cursor:default">読み込み中...</li>';
+  list.innerHTML = '<li style="color:#555577;cursor:default">読み込み中...</li>';
   modal.classList.remove('hidden');
 
   try {
@@ -491,7 +619,7 @@ async function showStoreModal() {
     if (error) throw error;
 
     if (!data || data.length === 0) {
-      list.innerHTML = '<li style="color:#999;cursor:default">店舗データがありません。<br>Supabaseのstoresテーブルにデータを追加してください。</li>';
+      list.innerHTML = '<li style="color:#555577;cursor:default">店舗データがありません</li>';
       return;
     }
 
@@ -504,16 +632,32 @@ async function showStoreModal() {
     });
   } catch (e) {
     showError('店舗データの取得に失敗しました: ' + e.message);
-    list.innerHTML = '<li style="color:#e53935;cursor:default">エラーが発生しました</li>';
+    list.innerHTML = '<li style="color:#ff6b6b;cursor:default">エラーが発生しました</li>';
   }
 }
 
 function selectStore(store) {
   currentStore = store;
-  localStorage.setItem('bird_counter_store_id', store.id);
-  localStorage.setItem('bird_counter_store_name', store.name);
-  document.getElementById('storeNameText').textContent = store.name;
+  localStorage.setItem('gachi_counter_store_id', store.id);
+  localStorage.setItem('gachi_counter_store_name', store.name);
   document.getElementById('storeModal').classList.add('hidden');
+  showBranchModal();
+}
+
+// ===========================================
+// 枝番選択
+// ===========================================
+function showBranchModal() {
+  document.getElementById('branchStoreLabel').textContent =
+    `${currentStore.name} のカウンター番号を選んでください`;
+  document.getElementById('branchModal').classList.remove('hidden');
+}
+
+function selectBranch(num) {
+  currentBranch = num;
+  localStorage.setItem('gachi_counter_branch', num);
+  document.getElementById('storeNameText').textContent = `${currentStore.name} #${currentBranch}`;
+  document.getElementById('branchModal').classList.add('hidden');
   loadCounters();
 }
 
@@ -528,11 +672,11 @@ async function loadCounters() {
       .from('counts')
       .select('*')
       .eq('store_id', currentStore.id)
+      .eq('branch_number', currentBranch)
       .eq('business_date', businessDate);
 
     if (error) throw error;
 
-    // カウンター初期化
     counters = {};
     CATEGORIES.forEach(cat => {
       cat.items.forEach(item => {
@@ -540,7 +684,6 @@ async function loadCounters() {
       });
     });
 
-    // DBから取得した値を反映
     if (data) {
       data.forEach(row => {
         counters[row.category] = row.count;
@@ -558,9 +701,8 @@ async function loadCounters() {
 // ===========================================
 function renderCounters() {
   const main = document.getElementById('mainContent');
-  let html = '';
+  let html = '<div class="rpg-window">';
 
-  // カウンターペア
   CATEGORIES.forEach(cat => {
     html += `
       <div class="counter-pair">
@@ -607,10 +749,12 @@ function renderCounters() {
       }).join('')}
     </div>`;
 
+  html += '</div>'; // rpg-window
+
   // フッター
   html += `
     <div class="footer">
-      🐦 バードカウンター v1.0 | 営業日: ${formatDateJP(getBusinessDate())}
+      🔢 ガチクーポンカウンター v2.0 | 営業日: ${formatDateJP(getBusinessDate())}
     </div>`;
 
   main.innerHTML = html;
@@ -621,41 +765,36 @@ function renderCounters() {
 // ===========================================
 async function updateCount(category, delta) {
   const newCount = counters[category] + delta;
-
-  // 0未満にはしない
   if (newCount < 0) return;
 
-  // UI即座に更新（楽観的更新）
   counters[category] = newCount;
   const el = document.getElementById(`count-${category}`);
   if (el) {
     el.textContent = newCount;
-    // アニメーション
-    el.style.transform = 'scale(1.2)';
-    setTimeout(() => { el.style.transform = 'scale(1)'; }, 150);
+    el.classList.remove('count-pop');
+    void el.offsetWidth; // reflow
+    el.classList.add('count-pop');
   }
 
-  // 合計も更新
   updateTotals();
 
-  // DB更新
   const businessDate = getBusinessDate();
   try {
     const { error } = await db
       .from('counts')
       .upsert({
         store_id: currentStore.id,
+        branch_number: currentBranch,
         business_date: businessDate,
         category: category,
         count: newCount,
       }, {
-        onConflict: 'store_id,business_date,category'
+        onConflict: 'store_id,branch_number,business_date,category'
       });
 
     if (error) throw error;
     hideError();
   } catch (e) {
-    // ロールバック
     counters[category] = newCount - delta;
     if (el) el.textContent = counters[category];
     updateTotals();
