@@ -536,6 +536,192 @@
     vertical-align: middle;
   }
 
+  /* ===== コマンドボタン ===== */
+  .cmd-btn {
+    font-family: 'DotGothic16', sans-serif;
+    font-size: 12px;
+    padding: 6px 14px;
+    border: 2px solid #c8a84e;
+    border-radius: 6px;
+    background: linear-gradient(180deg, #2a2a5e, #1a1a3e);
+    color: #ffd700;
+    cursor: pointer;
+    transition: all 0.12s;
+    white-space: nowrap;
+  }
+  .cmd-btn:hover {
+    background: linear-gradient(180deg, #3a3a6e, #2a2a4e);
+    box-shadow: 0 0 12px rgba(255, 215, 0, 0.2);
+  }
+
+  /* ===== コマンドモーダル ===== */
+  .cmd-modal {
+    border: 3px solid #c8a84e;
+    border-radius: 12px;
+    background: rgba(10, 10, 50, 0.97);
+    box-shadow: inset 0 0 0 2px rgba(200, 168, 78, 0.3), 0 8px 40px rgba(0,0,0,0.6);
+    padding: 24px;
+    max-width: 95vw;
+    width: 700px;
+    max-height: 90vh;
+    overflow-y: auto;
+    text-align: center;
+  }
+  .cmd-step { display: none; }
+  .cmd-step.active { display: block; }
+  .cmd-step h2 {
+    font-size: 18px;
+    color: #ffd700;
+    text-shadow: 0 0 8px rgba(255, 215, 0, 0.3);
+    margin-bottom: 16px;
+  }
+  .cmd-date-group {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    align-items: center;
+    margin-bottom: 16px;
+  }
+  .cmd-date-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .cmd-date-row label {
+    font-size: 15px;
+    color: #e0e0e0;
+    min-width: 100px;
+    text-align: right;
+  }
+  .cmd-date-row input[type="date"] {
+    font-family: 'DotGothic16', sans-serif;
+    font-size: 14px;
+    padding: 8px 12px;
+    border: 2px solid rgba(200, 168, 78, 0.5);
+    border-radius: 6px;
+    background: rgba(0, 0, 0, 0.4);
+    color: #ffd700;
+    outline: none;
+  }
+  .cmd-date-row input[type="date"]:focus {
+    border-color: #ffd700;
+  }
+  .cmd-nav {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    margin-top: 16px;
+  }
+  .cmd-nav-btn {
+    font-family: 'DotGothic16', sans-serif;
+    font-size: 14px;
+    padding: 8px 24px;
+    border: 2px solid #c8a84e;
+    border-radius: 6px;
+    background: linear-gradient(180deg, #2a2a5e, #1a1a3e);
+    color: #ffd700;
+    cursor: pointer;
+    transition: all 0.12s;
+  }
+  .cmd-nav-btn:hover {
+    background: linear-gradient(180deg, #3a3a6e, #2a2a4e);
+    box-shadow: 0 0 10px rgba(255, 215, 0, 0.2);
+  }
+  .cmd-nav-btn.back {
+    border-color: #666;
+    color: #999;
+  }
+  .cmd-store-options {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+  .cmd-store-list {
+    list-style: none;
+    max-height: 200px;
+    overflow-y: auto;
+    text-align: left;
+    margin-bottom: 12px;
+  }
+  .cmd-store-list li {
+    padding: 8px 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    border-bottom: 1px solid rgba(200, 168, 78, 0.15);
+    font-size: 13px;
+    color: #e0e0e0;
+    cursor: pointer;
+  }
+  .cmd-store-list li:hover { background: rgba(255, 215, 0, 0.05); }
+  .cmd-store-list input[type="checkbox"] { accent-color: #ffd700; }
+  .cmd-format-btns {
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+    margin: 16px 0;
+  }
+  .cmd-format-btn {
+    font-family: 'DotGothic16', sans-serif;
+    font-size: 14px;
+    padding: 12px 20px;
+    border: 2px solid #c8a84e;
+    border-radius: 8px;
+    background: linear-gradient(180deg, #2a2a5e, #1a1a3e);
+    color: #ffd700;
+    cursor: pointer;
+    transition: all 0.12s;
+  }
+  .cmd-format-btn:hover {
+    background: linear-gradient(180deg, #3a3a6e, #2a2a4e);
+    box-shadow: 0 0 12px rgba(255, 215, 0, 0.3);
+  }
+
+  /* ===== レポートテーブル ===== */
+  .report-container {
+    width: 100%;
+    overflow-x: auto;
+    overflow-y: auto;
+    max-height: 60vh;
+    margin: 12px 0;
+    border: 2px solid rgba(200, 168, 78, 0.3);
+    border-radius: 6px;
+  }
+  .report-table {
+    border-collapse: collapse;
+    font-size: 12px;
+    white-space: nowrap;
+  }
+  .report-table th, .report-table td {
+    padding: 6px 10px;
+    border: 1px solid rgba(200, 168, 78, 0.2);
+    text-align: center;
+  }
+  .report-table th {
+    background: rgba(200, 168, 78, 0.15);
+    color: #ffd700;
+    font-weight: bold;
+    position: sticky;
+    top: 0;
+    z-index: 2;
+  }
+  .report-table .sticky-col {
+    position: sticky;
+    left: 0;
+    background: rgba(10, 10, 50, 0.97);
+    z-index: 3;
+    text-align: left;
+    font-weight: bold;
+    color: #e0e0e0;
+  }
+  .report-table th.sticky-col { z-index: 4; }
+  .report-table td { color: #ccc; }
+  .csv-area {
+    text-align: center;
+    margin-top: 12px;
+  }
+
   /* ===== スクロールバーRPG風 ===== */
   ::-webkit-scrollbar { width: 8px; }
   ::-webkit-scrollbar-track { background: rgba(10, 10, 50, 0.5); }
@@ -566,6 +752,7 @@
       <div class="header-title">ガチクーポンカウンター</div>
       <div class="header-subtitle">Gachi Coupon Counter for MOOV</div>
     </div>
+    <button class="cmd-btn" onclick="openCommand()">⚔ コマンド</button>
   </div>
   <div class="header-right">
     <div class="store-name" id="storeNameDisplay" onclick="showStoreModal()" title="クリックで店舗変更">
@@ -629,6 +816,66 @@
     <h2>キャラクターを選択</h2>
     <p id="branchStoreLabel">---</p>
     <div class="branch-grid" id="branchGrid"></div>
+  </div>
+</div>
+
+<!-- ===== コマンドモーダル ===== -->
+<div class="modal-overlay hidden" id="cmdModal">
+  <div class="cmd-modal">
+    <!-- Step1: 期間 -->
+    <div class="cmd-step active" id="cmdStep1">
+      <h2>⚔ コマンド - 集計レポート</h2>
+      <div class="cmd-date-group">
+        <div class="cmd-date-row">
+          <label>はじまりは？</label>
+          <input type="date" id="cmdStartDate">
+        </div>
+        <div class="cmd-date-row">
+          <label>おわりは？</label>
+          <input type="date" id="cmdEndDate">
+        </div>
+      </div>
+      <div class="cmd-nav">
+        <button class="cmd-nav-btn back" onclick="closeCommand()">とじる</button>
+        <button class="cmd-nav-btn" onclick="cmdGoStep(2)">つぎへ</button>
+      </div>
+    </div>
+    <!-- Step2: 店舗 -->
+    <div class="cmd-step" id="cmdStep2">
+      <h2>どこの店舗？</h2>
+      <div class="cmd-store-options">
+        <button class="cmd-nav-btn" onclick="cmdSelectAllStores()">全店</button>
+        <button class="cmd-nav-btn" onclick="cmdShowStoreSelect()">店舗をえらぶ</button>
+      </div>
+      <ul class="cmd-store-list hidden" id="cmdStoreList"></ul>
+      <div class="cmd-nav">
+        <button class="cmd-nav-btn back" onclick="cmdGoStep(1)">もどる</button>
+        <button class="cmd-nav-btn" onclick="cmdGoStep(3)">つぎへ</button>
+      </div>
+    </div>
+    <!-- Step3: 形式 -->
+    <div class="cmd-step" id="cmdStep3">
+      <h2>どのけいしきで みる？</h2>
+      <div class="cmd-format-btns">
+        <button class="cmd-format-btn" onclick="cmdExecute('calendar')">📅 カレンダー形式</button>
+        <button class="cmd-format-btn" onclick="cmdExecute('record')">📋 レコード形式</button>
+      </div>
+      <div class="cmd-nav">
+        <button class="cmd-nav-btn back" onclick="cmdGoStep(2)">もどる</button>
+      </div>
+    </div>
+    <!-- Step4: 結果 -->
+    <div class="cmd-step" id="cmdStep4">
+      <h2 id="cmdResultTitle">けっか</h2>
+      <div id="cmdResultArea"></div>
+      <div class="csv-area">
+        <button class="cmd-nav-btn" onclick="cmdExportCSV()">📥 CSVで出力する？</button>
+      </div>
+      <div class="cmd-nav" style="margin-top:12px">
+        <button class="cmd-nav-btn back" onclick="cmdGoStep(3)">もどる</button>
+        <button class="cmd-nav-btn back" onclick="closeCommand()">とじる</button>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -1052,6 +1299,288 @@ function showLevelUp(label) {
     popup.style.opacity = '0';
     setTimeout(() => popup.remove(), 500);
   }, 2500);
+}
+
+// ===========================================
+// コマンド（集計レポート）
+// ===========================================
+let cmdStores = [];
+let cmdSelectedStoreIds = [];
+let cmdLastFormat = '';
+let cmdLastData = [];
+
+function openCommand() {
+  if (!isConfigured) return;
+  const today = getBusinessDate();
+  document.getElementById('cmdStartDate').value = today;
+  document.getElementById('cmdEndDate').value = today;
+  document.getElementById('cmdStoreList').classList.add('hidden');
+  cmdSelectedStoreIds = [];
+  cmdGoStep(1);
+  document.getElementById('cmdModal').classList.remove('hidden');
+}
+
+function closeCommand() {
+  document.getElementById('cmdModal').classList.add('hidden');
+}
+
+function cmdGoStep(n) {
+  for (let i = 1; i <= 4; i++) {
+    const el = document.getElementById(`cmdStep${i}`);
+    el.classList.toggle('active', i === n);
+  }
+  if (n === 2 && cmdStores.length === 0) {
+    cmdLoadStores();
+  }
+}
+
+async function cmdLoadStores() {
+  try {
+    const { data, error } = await db.from('stores').select('*').order('name');
+    if (error) throw error;
+    cmdStores = data || [];
+  } catch (e) {
+    showError('店舗データの取得に失敗: ' + e.message);
+  }
+}
+
+function cmdSelectAllStores() {
+  cmdSelectedStoreIds = cmdStores.map(s => s.id);
+  document.getElementById('cmdStoreList').classList.add('hidden');
+  // Highlight that all stores selected
+  const list = document.getElementById('cmdStoreList');
+  list.querySelectorAll('input[type="checkbox"]').forEach(cb => cb.checked = true);
+}
+
+function cmdShowStoreSelect() {
+  const list = document.getElementById('cmdStoreList');
+  list.classList.remove('hidden');
+  list.innerHTML = '';
+  cmdStores.forEach(store => {
+    const li = document.createElement('li');
+    const cb = document.createElement('input');
+    cb.type = 'checkbox';
+    cb.value = store.id;
+    cb.checked = cmdSelectedStoreIds.includes(store.id);
+    cb.onchange = () => {
+      if (cb.checked) {
+        if (!cmdSelectedStoreIds.includes(store.id)) cmdSelectedStoreIds.push(store.id);
+      } else {
+        cmdSelectedStoreIds = cmdSelectedStoreIds.filter(id => id !== store.id);
+      }
+    };
+    li.appendChild(cb);
+    li.appendChild(document.createTextNode(store.name));
+    li.onclick = (e) => { if (e.target !== cb) { cb.checked = !cb.checked; cb.onchange(); } };
+    list.appendChild(li);
+  });
+}
+
+async function cmdExecute(format) {
+  cmdLastFormat = format;
+  const startDate = document.getElementById('cmdStartDate').value;
+  const endDate = document.getElementById('cmdEndDate').value;
+  if (!startDate || !endDate) { alert('日付を入力してください'); return; }
+  if (cmdSelectedStoreIds.length === 0) { alert('店舗を選択してください'); return; }
+
+  cmdGoStep(4);
+  document.getElementById('cmdResultArea').innerHTML = '<div style="color:#8888aa;padding:20px">読み込み中...</div>';
+
+  try {
+    // Fetch data in chunks if many stores (Supabase .in() has limits)
+    let allData = [];
+    const chunkSize = 20;
+    for (let i = 0; i < cmdSelectedStoreIds.length; i += chunkSize) {
+      const chunk = cmdSelectedStoreIds.slice(i, i + chunkSize);
+      const { data, error } = await db
+        .from('counts')
+        .select('store_id, business_date, category, count')
+        .gte('business_date', startDate)
+        .lte('business_date', endDate)
+        .in('store_id', chunk);
+      if (error) throw error;
+      if (data) allData = allData.concat(data);
+    }
+
+    // Aggregate by store_id + business_date + category (sum across branches)
+    const agg = {};
+    allData.forEach(row => {
+      const key = `${row.store_id}|${row.business_date}|${row.category}`;
+      agg[key] = (agg[key] || 0) + row.count;
+    });
+
+    // Build store name map
+    const storeMap = {};
+    cmdStores.forEach(s => { storeMap[s.id] = s.name; });
+
+    // Convert to array
+    cmdLastData = Object.entries(agg).map(([key, count]) => {
+      const [store_id, business_date, category] = key.split('|');
+      return { store_id, store_name: storeMap[store_id] || store_id, business_date, category, count };
+    });
+
+    if (format === 'calendar') {
+      renderCalendarReport(cmdLastData, startDate, endDate);
+    } else {
+      renderRecordReport(cmdLastData);
+    }
+  } catch (e) {
+    document.getElementById('cmdResultArea').innerHTML = `<div style="color:#ff6b6b;padding:20px">エラー: ${e.message}</div>`;
+  }
+}
+
+const CATEGORY_LABELS = {
+  beginners_coupon_out: 'クーポン配',
+  beginners_coupon_return: 'クーポン戻',
+  meishi_out: '名刺配',
+  meishi_return: '名刺戻',
+  thanks_dm_out: 'DM配',
+  thanks_dm_return: 'DM戻',
+};
+
+function getDatesInRange(start, end) {
+  const dates = [];
+  const d = new Date(start);
+  const endD = new Date(end);
+  while (d <= endD) {
+    dates.push(d.toISOString().slice(0, 10));
+    d.setDate(d.getDate() + 1);
+  }
+  return dates;
+}
+
+function renderCalendarReport(data, startDate, endDate) {
+  document.getElementById('cmdResultTitle').textContent = '📅 カレンダー形式';
+  const dates = getDatesInRange(startDate, endDate);
+  const catKeys = Object.keys(CATEGORY_LABELS);
+
+  // Group: storeMap[store_name][date][category] = count
+  const grid = {};
+  const storeNames = [...new Set(data.map(d => d.store_name))].sort();
+  storeNames.forEach(name => {
+    grid[name] = {};
+    dates.forEach(date => { grid[name][date] = {}; });
+  });
+  data.forEach(row => {
+    if (grid[row.store_name] && grid[row.store_name][row.business_date]) {
+      grid[row.store_name][row.business_date][row.category] = row.count;
+    }
+  });
+
+  let html = '<div class="report-container"><table class="report-table">';
+  // Header: store | dates...
+  html += '<tr><th class="sticky-col">店舗</th>';
+  dates.forEach(d => {
+    const [, m, day] = d.split('-');
+    html += `<th colspan="${catKeys.length}">${parseInt(m)}/${parseInt(day)}</th>`;
+  });
+  html += '</tr>';
+  // Sub-header: category short names per date
+  html += '<tr><th class="sticky-col"></th>';
+  dates.forEach(() => {
+    catKeys.forEach(k => {
+      html += `<th style="font-size:10px;padding:3px 4px">${CATEGORY_LABELS[k]}</th>`;
+    });
+  });
+  html += '</tr>';
+  // Data rows
+  storeNames.forEach(name => {
+    html += `<tr><td class="sticky-col">${name}</td>`;
+    dates.forEach(date => {
+      catKeys.forEach(k => {
+        const v = grid[name][date][k] || 0;
+        html += `<td>${v || ''}</td>`;
+      });
+    });
+    html += '</tr>';
+  });
+  html += '</table></div>';
+  document.getElementById('cmdResultArea').innerHTML = html;
+}
+
+function renderRecordReport(data) {
+  document.getElementById('cmdResultTitle').textContent = '📋 レコード形式';
+  // Sort by store_name, date, category
+  const sorted = [...data].sort((a, b) =>
+    a.store_name.localeCompare(b.store_name) ||
+    a.business_date.localeCompare(b.business_date) ||
+    a.category.localeCompare(b.category)
+  );
+
+  let html = '<div class="report-container"><table class="report-table">';
+  html += '<tr><th>店舗名</th><th>日付</th><th>カテゴリ</th><th>カウント</th></tr>';
+  sorted.forEach(row => {
+    const label = CATEGORY_LABELS[row.category] || row.category;
+    const [, m, d] = row.business_date.split('-');
+    html += `<tr><td>${row.store_name}</td><td>${parseInt(m)}/${parseInt(d)}</td><td>${label}</td><td>${row.count}</td></tr>`;
+  });
+  html += '</table></div>';
+  document.getElementById('cmdResultArea').innerHTML = html;
+}
+
+function cmdExportCSV() {
+  if (cmdLastData.length === 0) { alert('データがありません'); return; }
+  let csv = '\uFEFF'; // BOM
+  if (cmdLastFormat === 'calendar') {
+    const startDate = document.getElementById('cmdStartDate').value;
+    const endDate = document.getElementById('cmdEndDate').value;
+    const dates = getDatesInRange(startDate, endDate);
+    const catKeys = Object.keys(CATEGORY_LABELS);
+    const storeNames = [...new Set(cmdLastData.map(d => d.store_name))].sort();
+
+    // Build grid
+    const grid = {};
+    storeNames.forEach(name => {
+      grid[name] = {};
+      dates.forEach(date => { grid[name][date] = {}; });
+    });
+    cmdLastData.forEach(row => {
+      if (grid[row.store_name] && grid[row.store_name][row.business_date]) {
+        grid[row.store_name][row.business_date][row.category] = row.count;
+      }
+    });
+
+    // Header row 1
+    csv += '店舗';
+    dates.forEach(d => {
+      catKeys.forEach((k, i) => csv += `,${i === 0 ? d : ''}`);
+    });
+    csv += '\n';
+    // Header row 2
+    csv += '';
+    dates.forEach(() => {
+      catKeys.forEach(k => csv += `,${CATEGORY_LABELS[k]}`);
+    });
+    csv += '\n';
+    // Data
+    storeNames.forEach(name => {
+      csv += name;
+      dates.forEach(date => {
+        catKeys.forEach(k => csv += `,${grid[name][date][k] || 0}`);
+      });
+      csv += '\n';
+    });
+  } else {
+    csv += '店舗名,日付,カテゴリ,カウント\n';
+    const sorted = [...cmdLastData].sort((a, b) =>
+      a.store_name.localeCompare(b.store_name) ||
+      a.business_date.localeCompare(b.business_date) ||
+      a.category.localeCompare(b.category)
+    );
+    sorted.forEach(row => {
+      csv += `${row.store_name},${row.business_date},${CATEGORY_LABELS[row.category] || row.category},${row.count}\n`;
+    });
+  }
+
+  const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `gachi_report_${document.getElementById('cmdStartDate').value}_${document.getElementById('cmdEndDate').value}.csv`;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
 }
 
 // ===========================================
