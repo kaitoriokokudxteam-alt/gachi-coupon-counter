@@ -159,7 +159,7 @@
   }
 
   .card-label {
-    font-size: 13px;
+    font-size: 20px;
     color: #aaa;
     display: flex;
     align-items: center;
@@ -322,15 +322,17 @@
     font-family: 'DotGothic16', sans-serif;
     font-size: 13px;
     font-weight: bold;
-    padding: 10px 4px;
+    padding: 8px 2px;
     cursor: pointer;
     transition: all 0.12s;
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 4px;
+    overflow: hidden;
   }
-  .branch-btn .branch-icon { font-size: 32px; line-height: 1; }
+  .branch-btn .branch-icon { font-size: 32px; line-height: 1; display: none; }
+  .branch-btn .branch-img { width: 52px; height: 52px; object-fit: contain; image-rendering: pixelated; }
   .branch-btn .branch-label { font-size: 11px; color: #8888aa; }
   .branch-btn:hover {
     border-color: #ffd700;
@@ -340,6 +342,81 @@
     box-shadow: 0 0 12px rgba(255, 215, 0, 0.15);
   }
   .branch-btn:hover .branch-label { color: #ffd700; }
+
+  /* ===== 復活の呪文 ===== */
+  .spell-input {
+    font-family: 'DotGothic16', sans-serif;
+    font-size: 20px;
+    width: 100%;
+    padding: 12px 16px;
+    border: 2px solid rgba(200, 168, 78, 0.5);
+    border-radius: 8px;
+    background: rgba(0, 0, 0, 0.4);
+    color: #ffd700;
+    text-align: center;
+    outline: none;
+    margin-bottom: 8px;
+  }
+  .spell-input:focus {
+    border-color: #ffd700;
+    box-shadow: 0 0 12px rgba(255, 215, 0, 0.2);
+  }
+  .spell-input::placeholder { color: #555577; }
+  .spell-error {
+    color: #ff6b6b;
+    font-size: 14px;
+    margin-bottom: 8px;
+  }
+  .spell-error.hidden { display: none; }
+  .spell-btn {
+    font-family: 'DotGothic16', sans-serif;
+    font-size: 16px;
+    padding: 10px 32px;
+    border: 2px solid #c8a84e;
+    border-radius: 8px;
+    background: linear-gradient(180deg, #2a2a5e, #1a1a3e);
+    color: #ffd700;
+    cursor: pointer;
+    transition: all 0.12s;
+    margin-top: 4px;
+  }
+  .spell-btn:hover {
+    background: linear-gradient(180deg, #3a3a6e, #2a2a4e);
+    box-shadow: 0 0 12px rgba(255, 215, 0, 0.2);
+  }
+
+  /* ===== レベルアップポップアップ ===== */
+  .levelup-popup {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 10000;
+    background: rgba(10, 10, 50, 0.95);
+    border: 3px solid #ffd700;
+    border-radius: 12px;
+    padding: 24px 36px;
+    text-align: center;
+    box-shadow: 0 0 30px rgba(255, 215, 0, 0.4);
+    animation: levelup-appear 0.3s ease-out;
+  }
+  .levelup-popup .levelup-icon { font-size: 40px; margin-bottom: 8px; }
+  .levelup-popup .levelup-text {
+    font-size: 18px;
+    color: #ffd700;
+    text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+    font-weight: bold;
+  }
+  .levelup-popup .levelup-sub {
+    font-size: 14px;
+    color: #ffe44d;
+    margin-top: 4px;
+  }
+  @keyframes levelup-appear {
+    0% { transform: translate(-50%, -50%) scale(0.5); opacity: 0; }
+    60% { transform: translate(-50%, -50%) scale(1.1); }
+    100% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+  }
 
   /* ===== エラー・ローディング ===== */
   .loading {
@@ -410,6 +487,55 @@
     animation: dmg-pop 0.25s ease-out;
   }
 
+  /* ===== 被ダメージエフェクト（−ボタン） ===== */
+  @keyframes damage-shake {
+    0% { transform: translate(0, 0); }
+    15% { transform: translate(-6px, 2px); }
+    30% { transform: translate(5px, -3px); }
+    45% { transform: translate(-4px, 3px); }
+    60% { transform: translate(4px, -2px); }
+    75% { transform: translate(-2px, 1px); }
+    100% { transform: translate(0, 0); }
+  }
+  .damage-flash {
+    animation: damage-shake 0.35s ease-out;
+  }
+  .damage-flash::after {
+    content: '';
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(255, 0, 0, 0.25);
+    pointer-events: none;
+    z-index: 9999;
+    animation: flash-fade 0.35s ease-out forwards;
+  }
+  @keyframes flash-fade {
+    0% { opacity: 1; }
+    100% { opacity: 0; }
+  }
+
+  /* ===== 攻撃エフェクト（＋ボタン） ===== */
+  @keyframes attack-shake {
+    0% { transform: translate(0, 0); }
+    20% { transform: translate(4px, 0); }
+    40% { transform: translate(-3px, 0); }
+    60% { transform: translate(2px, 0); }
+    80% { transform: translate(-1px, 0); }
+    100% { transform: translate(0, 0); }
+  }
+  .attack-shake {
+    animation: attack-shake 0.2s ease-out;
+  }
+
+  /* ===== ヘッダー枝番キャラ画像 ===== */
+  .header-branch-img {
+    width: 28px;
+    height: 28px;
+    object-fit: contain;
+    image-rendering: pixelated;
+    vertical-align: middle;
+  }
+
   /* ===== スクロールバーRPG風 ===== */
   ::-webkit-scrollbar { width: 8px; }
   ::-webkit-scrollbar-track { background: rgba(10, 10, 50, 0.5); }
@@ -472,6 +598,20 @@
   </div>
 </div>
 
+<!-- ===== 復活の呪文モーダル ===== -->
+<div class="modal-overlay hidden" id="spellModal">
+  <div class="modal">
+    <div class="modal-icon">📜</div>
+    <h2>復活の呪文をいれてください</h2>
+    <p>冒険を始めるには呪文が必要です</p>
+    <div style="margin-top:12px">
+      <input type="text" id="spellInput" class="spell-input" placeholder="じゅもんを にゅうりょく..." autocomplete="off" onkeydown="if(event.key==='Enter')checkSpell()">
+      <div id="spellError" class="spell-error hidden">じゅもんが ちがいます</div>
+      <button class="spell-btn" onclick="checkSpell()">とうろく</button>
+    </div>
+  </div>
+</div>
+
 <!-- ===== 店舗選択モーダル ===== -->
 <div class="modal-overlay hidden" id="storeModal">
   <div class="modal">
@@ -486,7 +626,7 @@
 <div class="modal-overlay hidden" id="branchModal">
   <div class="modal">
     <div class="modal-icon">🔢</div>
-    <h2>カウンター番号を選択</h2>
+    <h2>キャラクターを選択</h2>
     <p id="branchStoreLabel">---</p>
     <div class="branch-grid" id="branchGrid"></div>
   </div>
@@ -508,8 +648,8 @@ const CATEGORIES = [
     icon: '🔥',
     colorClass: 'coupon',
     items: [
-      { key: 'beginners_coupon_out', label: '配布', direction: 'out' },
-      { key: 'beginners_coupon_return', label: '戻り', direction: 'in' },
+      { key: 'beginners_coupon_out', label: 'くばった！', direction: 'out' },
+      { key: 'beginners_coupon_return', label: 'もどってきた！', direction: 'in' },
     ]
   },
   {
@@ -517,8 +657,8 @@ const CATEGORIES = [
     icon: '❄️',
     colorClass: 'meishi',
     items: [
-      { key: 'meishi_out', label: '配布', direction: 'out' },
-      { key: 'meishi_return', label: '戻り', direction: 'in' },
+      { key: 'meishi_out', label: 'くばった！', direction: 'out' },
+      { key: 'meishi_return', label: 'もどってきた！', direction: 'in' },
     ]
   },
   {
@@ -526,8 +666,8 @@ const CATEGORIES = [
     icon: '⚡',
     colorClass: 'dm',
     items: [
-      { key: 'thanks_dm_out', label: '配布', direction: 'out' },
-      { key: 'thanks_dm_return', label: '戻り', direction: 'in' },
+      { key: 'thanks_dm_out', label: 'くばった！', direction: 'out' },
+      { key: 'thanks_dm_return', label: 'もどってきた！', direction: 'in' },
     ]
   },
 ];
@@ -578,6 +718,42 @@ function formatDateJP(dateStr) {
 }
 
 // ===========================================
+// 復活の呪文
+// ===========================================
+function showSpellModal() {
+  document.getElementById('spellModal').classList.remove('hidden');
+  document.getElementById('spellInput').value = '';
+  document.getElementById('spellError').classList.add('hidden');
+  setTimeout(() => document.getElementById('spellInput').focus(), 100);
+}
+
+function checkSpell() {
+  const input = document.getElementById('spellInput').value.trim();
+  if (input === 'ふ') {
+    document.getElementById('spellModal').classList.add('hidden');
+    localStorage.setItem('gachi_counter_spell_ok', '1');
+    proceedAfterSpell();
+  } else {
+    document.getElementById('spellError').classList.remove('hidden');
+  }
+}
+
+async function proceedAfterSpell() {
+  const savedStoreId = localStorage.getItem('gachi_counter_store_id');
+  const savedStoreName = localStorage.getItem('gachi_counter_store_name');
+  const savedBranch = localStorage.getItem('gachi_counter_branch');
+
+  if (savedStoreId && savedStoreName && savedBranch) {
+    currentStore = { id: savedStoreId, name: savedStoreName };
+    currentBranch = parseInt(savedBranch);
+    updateStoreDisplay();
+    await loadCounters();
+  } else {
+    await showStoreModal();
+  }
+}
+
+// ===========================================
 // 初期化
 // ===========================================
 async function init() {
@@ -602,18 +778,8 @@ async function init() {
   const businessDate = getBusinessDate();
   document.getElementById('businessDateDisplay').textContent = formatDateJP(businessDate);
 
-  const savedStoreId = localStorage.getItem('gachi_counter_store_id');
-  const savedStoreName = localStorage.getItem('gachi_counter_store_name');
-  const savedBranch = localStorage.getItem('gachi_counter_branch');
-
-  if (savedStoreId && savedStoreName && savedBranch) {
-    currentStore = { id: savedStoreId, name: savedStoreName };
-    currentBranch = parseInt(savedBranch);
-    document.getElementById('storeNameText').textContent = getBranchDisplay();
-    await loadCounters();
-  } else {
-    await showStoreModal();
-  }
+  // 復活の呪文チェック（セッションごとに毎回表示）
+  showSpellModal();
 }
 
 // ===========================================
@@ -662,11 +828,11 @@ function selectStore(store) {
 // ===========================================
 function showBranchModal() {
   document.getElementById('branchStoreLabel').textContent =
-    `${currentStore.name} のカウンター番号を選んでください`;
+    `このMOOVのキャラクターを選択してください`;
   const grid = document.getElementById('branchGrid');
   grid.innerHTML = BRANCH_CHARS.map(ch =>
     `<button class="branch-btn" onclick="selectBranch(${ch.num})">
-      <span class="branch-icon">${ch.icon}</span>
+      <img class="branch-img" src="charaimages/${ch.num}.png" alt="${ch.name}">
       <span>${ch.num}</span>
       <span class="branch-label">${ch.name}</span>
     </button>`
@@ -675,14 +841,24 @@ function showBranchModal() {
 }
 
 function getBranchDisplay() {
-  const ch = BRANCH_CHARS.find(c => c.num === currentBranch);
-  return ch ? `${currentStore.name} ${ch.icon}#${currentBranch}` : `${currentStore.name} #${currentBranch}`;
+  return `${currentStore.name} #${currentBranch}`;
+}
+
+function updateStoreDisplay() {
+  const container = document.getElementById('storeNameText');
+  container.innerHTML = '';
+  container.appendChild(document.createTextNode(getBranchDisplay()));
+  const img = document.createElement('img');
+  img.src = `charaimages/${currentBranch}.png`;
+  img.alt = '';
+  img.className = 'header-branch-img';
+  container.appendChild(img);
 }
 
 function selectBranch(num) {
   currentBranch = num;
   localStorage.setItem('gachi_counter_branch', num);
-  document.getElementById('storeNameText').textContent = getBranchDisplay();
+  updateStoreDisplay();
   document.getElementById('branchModal').classList.add('hidden');
   loadCounters();
 }
@@ -740,13 +916,9 @@ function renderCounters() {
 
     cat.items.forEach(item => {
       const isReturn = item.direction === 'in';
-      const arrowClass = isReturn ? 'arrow-in' : 'arrow-out';
-      const arrow = isReturn ? '&#8592; ' : '&#8594; ';
       html += `
           <div class="counter-card ${isReturn ? 'return-card' : ''}">
-            <div class="card-label">
-              <span class="${arrowClass}">${arrow}</span>${item.label}
-            </div>
+            <div class="card-label">${item.label}</div>
             <div class="count-display" id="count-${item.key}">${counters[item.key]}</div>
             <div class="btn-group">
               <button class="btn btn-minus" onclick="updateCount('${item.key}', -1)" title="1減らす">−</button>
@@ -760,20 +932,6 @@ function renderCounters() {
       </div>`;
   });
 
-  // 合計バー
-  html += `
-    <div class="total-bar">
-      ${CATEGORIES.map(cat => {
-        const outKey = cat.items.find(i => i.direction === 'out').key;
-        const inKey = cat.items.find(i => i.direction === 'in').key;
-        const net = counters[outKey] - counters[inKey];
-        return `
-          <div class="total-item">
-            <div class="total-label">${cat.icon} ${cat.group} 残</div>
-            <div class="total-value" id="net-${cat.colorClass}">${net}</div>
-          </div>`;
-      }).join('')}
-    </div>`;
 
   html += '</div>'; // rpg-window
 
@@ -798,8 +956,34 @@ async function updateCount(category, delta) {
   if (el) {
     el.textContent = newCount;
     el.classList.remove('count-pop');
-    void el.offsetWidth; // reflow
+    void el.offsetWidth;
     el.classList.add('count-pop');
+  }
+
+  // 画面エフェクト
+  const body = document.body;
+  if (delta < 0) {
+    // 被ダメージ: 赤フラッシュ + 振動
+    body.classList.remove('damage-flash', 'attack-shake');
+    void body.offsetWidth;
+    body.classList.add('damage-flash');
+    setTimeout(() => body.classList.remove('damage-flash'), 400);
+  } else {
+    // 攻撃: 振動のみ
+    body.classList.remove('damage-flash', 'attack-shake');
+    void body.offsetWidth;
+    body.classList.add('attack-shake');
+    setTimeout(() => body.classList.remove('attack-shake'), 250);
+  }
+
+  // レベルアップチェック（10刻み）
+  if (delta > 0 && newCount > 0 && newCount % 10 === 0) {
+    const catInfo = CATEGORIES.find(c => c.items.some(i => i.key === category));
+    const itemInfo = catInfo ? catInfo.items.find(i => i.key === category) : null;
+    if (catInfo && itemInfo) {
+      const label = `${itemInfo.label.replace('！', '')}${catInfo.group}`;
+      showLevelUp(label);
+    }
   }
 
   updateTotals();
@@ -849,6 +1033,25 @@ function showError(msg) {
 
 function hideError() {
   document.getElementById('errorBanner').classList.add('hidden');
+}
+
+// ===========================================
+// レベルアップ表示
+// ===========================================
+function showLevelUp(label) {
+  const popup = document.createElement('div');
+  popup.className = 'levelup-popup';
+  popup.innerHTML = `
+    <div class="levelup-icon">🎉</div>
+    <div class="levelup-text">${label}がレベルアップした！</div>
+    <div class="levelup-sub">やったね！</div>
+  `;
+  document.body.appendChild(popup);
+  setTimeout(() => {
+    popup.style.transition = 'opacity 0.5s';
+    popup.style.opacity = '0';
+    setTimeout(() => popup.remove(), 500);
+  }, 2500);
 }
 
 // ===========================================
