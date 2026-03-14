@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ガチクーポンカウンター 冒険の書（マニュアル）</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DotGothic16&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'DotGothic16', monospace;
+    background: #0a0a32;
+    color: #e0e0ff;
+    line-height: 1.8;
+    min-height: 100vh;
+  }
+
+  .manual-container {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 20px 16px 60px;
+  }
+
+  /* ヘッダー */
+  .manual-header {
+    text-align: center;
+    padding: 40px 0 30px;
+    border-bottom: 3px double #ffd700;
+    margin-bottom: 30px;
+  }
+  .manual-header h1 {
+    color: #ffd700;
+    font-size: 24px;
+    text-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
+    margin-bottom: 8px;
+  }
+  .manual-header .subtitle {
+    color: #aaa;
+    font-size: 14px;
+  }
+  .manual-header .scroll-icon {
+    font-size: 48px;
+    display: block;
+    margin-bottom: 12px;
+  }
+
+  /* セクション */
+  .section {
+    background: rgba(20, 20, 80, 0.6);
+    border: 2px solid #334;
+    border-radius: 12px;
+    padding: 24px 20px;
+    margin-bottom: 24px;
+    position: relative;
+  }
+  .section::before {
+    content: '';
+    position: absolute;
+    top: -1px; left: -1px; right: -1px; bottom: -1px;
+    border-radius: 12px;
+    border: 1px solid rgba(255, 215, 0, 0.15);
+    pointer-events: none;
+  }
+
+  .section h2 {
+    color: #ffd700;
+    font-size: 20px;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .section h2 .icon { font-size: 24px; }
+
+  .section h3 {
+    color: #ffaa00;
+    font-size: 16px;
+    margin: 20px 0 10px;
+    padding-left: 8px;
+    border-left: 3px solid #ffaa00;
+  }
+
+  p { margin-bottom: 12px; font-size: 15px; }
+
+  /* 警告ボックス */
+  .warning-box {
+    background: rgba(255, 0, 0, 0.15);
+    border: 2px solid #ff4444;
+    border-radius: 8px;
+    padding: 16px 20px;
+    margin: 20px 0;
+    position: relative;
+  }
+  .warning-box::before {
+    content: '⚠ 重要！';
+    display: block;
+    color: #ff4444;
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 8px;
+  }
+  .warning-box p { color: #ffcccc; }
+
+  .super-warning {
+    background: rgba(255, 0, 0, 0.25);
+    border: 3px solid #ff0000;
+    animation: warning-pulse 2s ease-in-out infinite;
+  }
+  .super-warning::before {
+    content: '🚨 ぜったいに守ってね！ 🚨';
+    font-size: 20px;
+    color: #ff0000;
+    text-align: center;
+    display: block;
+  }
+  @keyframes warning-pulse {
+    0%, 100% { border-color: #ff0000; }
+    50% { border-color: #ff6666; }
+  }
+
+  /* ヒントボックス */
+  .tip-box {
+    background: rgba(0, 100, 255, 0.12);
+    border: 2px solid #4488ff;
+    border-radius: 8px;
+    padding: 16px 20px;
+    margin: 16px 0;
+  }
+  .tip-box::before {
+    content: '💡 ヒント';
+    display: block;
+    color: #4488ff;
+    font-size: 16px;
+    font-weight: bold;
+    margin-bottom: 6px;
+  }
+
+  /* キャラカード */
+  .chara-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+    gap: 12px;
+    margin: 16px 0;
+  }
+  .chara-card {
+    background: rgba(30, 30, 100, 0.8);
+    border: 2px solid #446;
+    border-radius: 10px;
+    padding: 16px 8px;
+    text-align: center;
+    transition: border-color 0.3s;
+  }
+  .chara-card:hover { border-color: #ffd700; }
+  .chara-card img {
+    width: 64px;
+    height: 64px;
+    object-fit: contain;
+    display: block;
+    margin: 0 auto 8px;
+  }
+  .chara-card .chara-num {
+    color: #ffd700;
+    font-size: 22px;
+    display: block;
+  }
+  .chara-card .chara-name {
+    color: #ccc;
+    font-size: 14px;
+  }
+
+  /* ステップリスト */
+  .steps { list-style: none; counter-reset: step; }
+  .steps li {
+    position: relative;
+    padding: 12px 12px 12px 52px;
+    margin-bottom: 12px;
+    background: rgba(30, 30, 80, 0.5);
+    border-radius: 8px;
+    border: 1px solid #334;
+    min-height: 48px;
+  }
+  .steps li::before {
+    counter-increment: step;
+    content: counter(step);
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 32px;
+    height: 32px;
+    background: #ffd700;
+    color: #0a0a32;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    font-weight: bold;
+  }
+
+  /* バトルエフェクト説明 */
+  .effect-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px;
+    background: rgba(30, 30, 80, 0.5);
+    border-radius: 8px;
+    margin-bottom: 10px;
+  }
+  .effect-btn {
+    min-width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    font-weight: bold;
+    border-radius: 8px;
+    border: none;
+    flex-shrink: 0;
+  }
+  .effect-btn.plus { background: #1a5c1a; color: #4f4; }
+  .effect-btn.minus { background: #5c1a1a; color: #f44; }
+  .effect-desc { font-size: 14px; }
+
+  /* カウンター種類テーブル */
+  .counter-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 12px 0;
+    font-size: 14px;
+  }
+  .counter-table th {
+    background: rgba(255, 215, 0, 0.15);
+    color: #ffd700;
+    padding: 10px 12px;
+    text-align: left;
+    border-bottom: 2px solid #ffd700;
+  }
+  .counter-table td {
+    padding: 10px 12px;
+    border-bottom: 1px solid #334;
+  }
+  .counter-table tr:hover td { background: rgba(255, 255, 255, 0.03); }
+
+  /* 画像 */
+  .screenshot {
+    display: block;
+    max-width: 100%;
+    border: 2px solid #446;
+    border-radius: 8px;
+    margin: 16px auto;
+  }
+
+  /* RPGメッセージ風 */
+  .rpg-msg {
+    background: #000;
+    border: 3px solid #fff;
+    border-radius: 8px;
+    padding: 20px 24px;
+    margin: 16px 0;
+    font-size: 16px;
+    line-height: 2;
+    position: relative;
+  }
+  .rpg-msg .cursor {
+    display: inline-block;
+    animation: blink 1s step-end infinite;
+  }
+  @keyframes blink {
+    0%, 50% { opacity: 1; }
+    51%, 100% { opacity: 0; }
+  }
+
+  /* フッター */
+  .manual-footer {
+    text-align: center;
+    padding: 30px 0;
+    border-top: 3px double #ffd700;
+    margin-top: 20px;
+    color: #888;
+    font-size: 13px;
+  }
+
+  /* スクロールトップ */
+  .back-to-top {
+    display: block;
+    text-align: center;
+    color: #ffd700;
+    text-decoration: none;
+    padding: 12px;
+    margin-top: 20px;
+    border: 1px solid #ffd700;
+    border-radius: 8px;
+    font-family: 'DotGothic16', monospace;
+    font-size: 14px;
+  }
+  .back-to-top:hover { background: rgba(255, 215, 0, 0.1); }
+
+  /* 目次 */
+  .toc {
+    list-style: none;
+    margin: 12px 0;
+  }
+  .toc li {
+    margin-bottom: 8px;
+  }
+  .toc a {
+    color: #88aaff;
+    text-decoration: none;
+    font-size: 15px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 10px;
+    border-radius: 6px;
+    transition: background 0.2s;
+  }
+  .toc a:hover { background: rgba(100, 150, 255, 0.1); }
+  .toc .toc-num {
+    color: #ffd700;
+    font-size: 13px;
+    min-width: 28px;
+  }
+
+  /* レスポンシブ */
+  @media (max-width: 480px) {
+    .manual-header h1 { font-size: 20px; }
+    .section { padding: 18px 14px; }
+    .chara-grid { grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); }
+  }
+</style>
+</head>
+<body>
+<div class="manual-container" id="top">
+
+  <!-- ヘッダー -->
+  <div class="manual-header">
+    <span class="scroll-icon">📜</span>
+    <h1>ガチクーポンカウンター</h1>
+    <h1>冒険の書（ユーザーマニュアル）</h1>
+    <div class="subtitle">Gachi Coupon Counter for MOOV ── 使い方ガイド</div>
+  </div>
+
+  <!-- 目次 -->
+  <div class="section">
+    <h2><span class="icon">🗺</span> もくじ</h2>
+    <ul class="toc">
+      <li><a href="#sec-spell"><span class="toc-num">01</span> 復活の呪文（ログイン）</a></li>
+      <li><a href="#sec-store"><span class="toc-num">02</span> 店舗をえらぶ</a></li>
+      <li><a href="#sec-branch"><span class="toc-num">03</span> キャラクター（枝番）をえらぶ</a></li>
+      <li><a href="#sec-counter"><span class="toc-num">04</span> カウンターのつかいかた</a></li>
+      <li><a href="#sec-battle"><span class="toc-num">05</span> バトルエフェクト</a></li>
+      <li><a href="#sec-levelup"><span class="toc-num">06</span> レベルアップ</a></li>
+      <li><a href="#sec-command"><span class="toc-num">07</span> コマンド（集計レポート）</a></li>
+      <li><a href="#sec-daily"><span class="toc-num">08</span> 毎日のながれ</a></li>
+      <li><a href="#sec-trouble"><span class="toc-num">09</span> こまったときは</a></li>
+    </ul>
+  </div>
+
+  <!-- ============================================ -->
+  <!-- 1. 復活の呪文 -->
+  <!-- ============================================ -->
+  <div class="section" id="sec-spell">
+    <h2><span class="icon">📖</span> 復活の呪文（ログイン）</h2>
+    <p>アプリを開くと、まず「復活の呪文」をきかれます。</p>
+    <div class="rpg-msg">
+      復活の呪文をいれてください<br>
+      冒険を始めるには呪文が必要です<span class="cursor">▼</span>
+    </div>
+    <p>入力欄に <strong>「ふ」</strong> と入力して「とうろく」をタップしてください。</p>
+    <div class="tip-box">
+      <p>一度入力すれば、次からは自動でスキップされます。ブラウザのデータを消去した場合はもう一度入力が必要です。</p>
+    </div>
+  </div>
+
+  <!-- ============================================ -->
+  <!-- 2. 店舗をえらぶ -->
+  <!-- ============================================ -->
+  <div class="section" id="sec-store">
+    <h2><span class="icon">🏰</span> 店舗をえらぶ</h2>
+    <p>呪文を入力すると、店舗の一覧が表示されます。</p>
+    <p>自分が今いる店舗をタップしてください。</p>
+    <div class="tip-box">
+      <p>店舗を変更したいときは、画面右上の店舗名の横にある <strong>▼</strong> をタップすると、もう一度えらべます。</p>
+    </div>
+  </div>
+
+  <!-- ============================================ -->
+  <!-- 3. キャラクター（枝番） -->
+  <!-- ============================================ -->
+  <div class="section" id="sec-branch">
+    <h2><span class="icon">⚔</span> キャラクター（枝番）をえらぶ</h2>
+    <p>店舗をえらぶと、次に「キャラクター」をえらびます。<br>
+    キャラクターは <strong>枝番（えだばん）</strong> とも呼ばれ、<strong>1〜5</strong> の番号がついています。</p>
+
+    <div class="chara-grid">
+      <div class="chara-card">
+        <img src="charaimages/1.png" alt="勇者">
+        <span class="chara-num">1</span>
+        <span class="chara-name">🧑‍⚔️ 勇者</span>
+      </div>
+      <div class="chara-card">
+        <img src="charaimages/2.png" alt="戦士">
+        <span class="chara-num">2</span>
+        <span class="chara-name">💂‍♀️ 戦士</span>
+      </div>
+      <div class="chara-card">
+        <img src="charaimages/3.png" alt="僧侶">
+        <span class="chara-num">3</span>
+        <span class="chara-name">🧙‍♂️ 僧侶</span>
+      </div>
+      <div class="chara-card">
+        <img src="charaimages/4.png" alt="魔法使い">
+        <span class="chara-num">4</span>
+        <span class="chara-name">🧙‍♀️ 魔法使い</span>
+      </div>
+      <div class="chara-card">
+        <img src="charaimages/5.png" alt="スライム">
+        <span class="chara-num">5</span>
+        <span class="chara-name">🟢 スライム</span>
+      </div>
+    </div>
+
+    <!-- ===== 超重要警告 ===== -->
+    <div class="warning-box super-warning">
+      <p style="font-size: 18px; text-align: center; margin-bottom: 12px;">
+        <strong>同じ店舗で、同じキャラクターを使わないでください！</strong>
+      </p>
+      <p>キャラクター（枝番）は <strong>端末ごとに別々のもの</strong> を選んでください。</p>
+      <p style="margin-bottom: 4px;">たとえば：</p>
+      <table class="counter-table" style="margin: 8px 0;">
+        <tr><th>端末</th><th>キャラ</th><th></th></tr>
+        <tr><td>レジ横のiPad</td><td>1 勇者</td><td>OK!</td></tr>
+        <tr><td>バックヤードのPC</td><td>2 戦士</td><td>OK!</td></tr>
+        <tr><td>スタッフAのスマホ</td><td>3 僧侶</td><td>OK!</td></tr>
+      </table>
+      <p style="color: #ff6666; font-size: 16px; margin-top: 12px;">
+        NG! の例：2台とも「勇者」 → カウントが上書きされてしまいます！
+      </p>
+      <p style="color: #ffaaaa;">
+        パーティーと同じです。勇者が2人いたらおかしいですよね？<br>
+        <strong>1台に1キャラ</strong>。これが冒険のルールです！
+      </p>
+    </div>
+
+    <div class="tip-box">
+      <p>どの端末がどのキャラか、付箋やシールで目印をつけておくと便利です！</p>
+    </div>
+  </div>
+
+  <!-- ============================================ -->
+  <!-- 4. カウンターのつかいかた -->
+  <!-- ============================================ -->
+  <div class="section" id="sec-counter">
+    <h2><span class="icon">🎮</span> カウンターのつかいかた</h2>
+    <p>メイン画面には3種類のカウンターがあります。</p>
+
+    <table class="counter-table">
+      <tr>
+        <th>カウンター</th>
+        <th>くばった！</th>
+        <th>もどってきた！</th>
+      </tr>
+      <tr>
+        <td>🔥 ビギナーズクーポン</td>
+        <td>お客様に渡した枚数</td>
+        <td>回収した枚数</td>
+      </tr>
+      <tr>
+        <td>❄️ 名刺</td>
+        <td>お客様に渡した枚数</td>
+        <td>回収した枚数</td>
+      </tr>
+      <tr>
+        <td>⚡ お礼DM</td>
+        <td>お客様に渡した枚数</td>
+        <td>回収した枚数</td>
+      </tr>
+    </table>
+
+    <h3>カウントのしかた</h3>
+    <ol class="steps">
+      <li>お客様にクーポンや名刺を <strong>渡したら</strong>「くばった！」の <strong style="color:#4f4;">＋</strong> をタップ</li>
+      <li>お客様からクーポンや名刺が <strong>戻ってきたら</strong>「もどってきた！」の <strong style="color:#4f4;">＋</strong> をタップ</li>
+      <li>まちがえたら <strong style="color:#f44;">ー</strong> をタップで1つ減らせます</li>
+    </ol>
+
+    <div class="tip-box">
+      <p>カウントはリアルタイムでデータベースに保存されます。ブラウザを閉じても大丈夫！</p>
+    </div>
+  </div>
+
+  <!-- ============================================ -->
+  <!-- 5. バトルエフェクト -->
+  <!-- ============================================ -->
+  <div class="section" id="sec-battle">
+    <h2><span class="icon">💥</span> バトルエフェクト</h2>
+    <p>カウンターをタップすると、RPGのバトルのようなエフェクトが発生します！</p>
+
+    <div class="effect-row">
+      <div class="effect-btn plus">＋</div>
+      <div class="effect-desc">
+        <strong style="color:#4f4;">攻撃！</strong><br>
+        画面がブルブルッとゆれます。モンスターにダメージを与えたイメージ！
+      </div>
+    </div>
+    <div class="effect-row">
+      <div class="effect-btn minus">ー</div>
+      <div class="effect-desc">
+        <strong style="color:#f44;">ダメージ！</strong><br>
+        画面が赤く光ってゆれます。攻撃を受けたイメージ！
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================ -->
+  <!-- 6. レベルアップ -->
+  <!-- ============================================ -->
+  <div class="section" id="sec-levelup">
+    <h2><span class="icon">🎉</span> レベルアップ</h2>
+    <p>各カウンターが <strong>10、20、30...</strong> と10の倍数に到達すると、レベルアップ演出が出ます！</p>
+
+    <div class="rpg-msg" style="text-align: center;">
+      🎉<br>
+      くばった！ビギナーズクーポンが<br>
+      レベルアップした！<br>
+      やったね！<span class="cursor">▼</span>
+    </div>
+
+    <p>たくさん配って、どんどんレベルを上げよう！</p>
+  </div>
+
+  <!-- ============================================ -->
+  <!-- 7. コマンド（集計レポート） -->
+  <!-- ============================================ -->
+  <div class="section" id="sec-command">
+    <h2><span class="icon">📊</span> コマンド（集計レポート）</h2>
+    <p>画面上部の <strong>「⚔ コマンド」</strong> ボタンをタップすると、集計レポートを見ることができます。</p>
+
+    <h3>レポートの出しかた</h3>
+    <ol class="steps">
+      <li><strong>はじまりは？</strong> ── 集計したい期間の開始日を入力</li>
+      <li><strong>おわりは？</strong> ── 集計したい期間の終了日を入力</li>
+      <li><strong>どこの店舗？</strong> ──「全店」か「店舗をえらぶ」で対象の店舗を選択</li>
+      <li><strong>形式をえらぶ</strong> ── カレンダー形式 or レコード形式</li>
+    </ol>
+
+    <h3>📅 カレンダー形式</h3>
+    <p>行に店舗名、列に日付が並ぶ表です。各セルにカテゴリ別の数字が表示されます。日付が多い場合は横スクロールできます。</p>
+
+    <h3>📋 レコード形式</h3>
+    <p>店舗名・日付・カテゴリ・カウント数が1行ずつ並ぶリストです。データが多い場合は縦スクロールできます。</p>
+
+    <h3>📥 CSV出力</h3>
+    <p>レポート画面の下に <strong>「CSVで出力する？」</strong> ボタンがあります。タップするとExcelで開けるファイルがダウンロードされます。</p>
+
+    <div class="tip-box">
+      <p>レポートでは枝番（キャラクター）ごとのカウントが店舗単位で合計されています。1店舗に3台の端末があっても、合計値が表示されます。</p>
+    </div>
+  </div>
+
+  <!-- ============================================ -->
+  <!-- 8. 毎日のながれ -->
+  <!-- ============================================ -->
+  <div class="section" id="sec-daily">
+    <h2><span class="icon">🌅</span> 毎日のながれ</h2>
+
+    <ol class="steps">
+      <li><strong>朝7:00</strong> に日付が自動で切り替わり、カウンターが 0 にリセットされます</li>
+      <li>アプリを開いて、呪文を入力（初回のみ）</li>
+      <li>自分の店舗 → 自分のキャラクター（枝番）を確認</li>
+      <li>あとはお客様が来るたびに ＋ をポチポチ！</li>
+      <li>閉店後はそのままでOK。データは自動保存されています</li>
+    </ol>
+
+    <div class="warning-box">
+      <p>朝7:00より前の深夜帯（0:00〜6:59）のカウントは<strong>前日分</strong>として記録されます。営業日の区切りは毎朝7:00です。</p>
+    </div>
+  </div>
+
+  <!-- ============================================ -->
+  <!-- 9. こまったときは -->
+  <!-- ============================================ -->
+  <div class="section" id="sec-trouble">
+    <h2><span class="icon">🛡</span> こまったときは</h2>
+
+    <h3>カウンターが動かない</h3>
+    <p>インターネット接続を確認してください。Wi-Fiやモバイルデータが切れているとカウントが保存できません。</p>
+
+    <h3>数字をまちがえた</h3>
+    <p><strong style="color:#f44;">ー</strong> ボタンで1つずつ減らせます。0より下にはなりません。</p>
+
+    <h3>店舗やキャラを変えたい</h3>
+    <p>画面右上の <strong>店舗名 ▼</strong> をタップすると、店舗とキャラクターをもう一度えらべます。</p>
+
+    <h3>復活の呪文をわすれた</h3>
+    <div class="rpg-msg">
+      こたえ：「ふ」<span class="cursor">▼</span>
+    </div>
+
+    <h3>別の人と同じキャラクターを選んでしまった</h3>
+    <p>片方の人がキャラクターを変更してください。右上の ▼ から変更できます。変更前のカウントはそのまま残っています。</p>
+
+    <div class="warning-box">
+      <p>解決しない場合は、管理者に連絡してください。</p>
+    </div>
+  </div>
+
+  <!-- もう一度キャラ警告 -->
+  <div class="section" style="border-color: #ff4444;">
+    <h2 style="color: #ff4444;"><span class="icon">🚨</span> さいごに、もういちど！</h2>
+    <div class="rpg-msg" style="border-color: #ffd700; text-align: center; font-size: 18px;">
+      おなじ店舗で<br>
+      おなじキャラクターは<br>
+      <strong style="color: #ff4444; font-size: 22px;">ぜったいに使わないでね！</strong><br><br>
+      <span style="color: #aaa; font-size: 14px;">1台に1キャラ。それが冒険のルール！</span><span class="cursor">▼</span>
+    </div>
+  </div>
+
+  <a href="#top" class="back-to-top">▲ 冒険の書のはじめにもどる</a>
+
+  <div class="manual-footer">
+    <p>ガチクーポンカウンター for MOOV</p>
+    <p>この冒険の書は 2026年3月 に作成されました</p>
+  </div>
+
+</div>
+</body>
+</html>
