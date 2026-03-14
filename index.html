@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>ガチクーポンカウンター</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect x='30' y='15' width='40' height='60' rx='8' fill='%23c0c0c0' stroke='%23666' stroke-width='3'/><rect x='38' y='25' width='24' height='16' rx='2' fill='%23222' stroke='%23444' stroke-width='1'/><text x='50' y='38' text-anchor='middle' font-family='monospace' font-size='12' fill='%2300ff00'>000</text><circle cx='50' cy='55' r='6' fill='%23e44' stroke='%23a00' stroke-width='2'/><rect x='44' y='75' width='12' height='15' rx='3' fill='%23999' stroke='%23666' stroke-width='2'/></svg>">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=DotGothic16&display=swap" rel="stylesheet">
@@ -319,12 +320,18 @@
     background: rgba(255, 255, 255, 0.03);
     color: #e0e0e0;
     font-family: 'DotGothic16', sans-serif;
-    font-size: 22px;
+    font-size: 13px;
     font-weight: bold;
-    padding: 16px 0;
+    padding: 10px 4px;
     cursor: pointer;
     transition: all 0.12s;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
   }
+  .branch-btn .branch-icon { font-size: 32px; line-height: 1; }
+  .branch-btn .branch-label { font-size: 11px; color: #8888aa; }
   .branch-btn:hover {
     border-color: #ffd700;
     color: #ffd700;
@@ -332,6 +339,7 @@
     text-shadow: 0 0 8px rgba(255, 215, 0, 0.4);
     box-shadow: 0 0 12px rgba(255, 215, 0, 0.15);
   }
+  .branch-btn:hover .branch-label { color: #ffd700; }
 
   /* ===== エラー・ローディング ===== */
   .loading {
@@ -480,13 +488,7 @@
     <div class="modal-icon">🔢</div>
     <h2>カウンター番号を選択</h2>
     <p id="branchStoreLabel">---</p>
-    <div class="branch-grid">
-      <button class="branch-btn" onclick="selectBranch(1)">1</button>
-      <button class="branch-btn" onclick="selectBranch(2)">2</button>
-      <button class="branch-btn" onclick="selectBranch(3)">3</button>
-      <button class="branch-btn" onclick="selectBranch(4)">4</button>
-      <button class="branch-btn" onclick="selectBranch(5)">5</button>
-    </div>
+    <div class="branch-grid" id="branchGrid"></div>
   </div>
 </div>
 
@@ -528,6 +530,17 @@ const CATEGORIES = [
       { key: 'thanks_dm_return', label: '戻り', direction: 'in' },
     ]
   },
+];
+
+// ===========================================
+// 枝番キャラクター定義
+// ===========================================
+const BRANCH_CHARS = [
+  { num: 1, icon: '🧑‍⚔️', name: '勇者' },
+  { num: 2, icon: '💂‍♀️', name: '戦士' },
+  { num: 3, icon: '🧙‍♂️', name: '僧侶' },
+  { num: 4, icon: '🧙‍♀️', name: '魔法使い' },
+  { num: 5, icon: '🟢', name: 'スライム' },
 ];
 
 // ===========================================
@@ -596,7 +609,7 @@ async function init() {
   if (savedStoreId && savedStoreName && savedBranch) {
     currentStore = { id: savedStoreId, name: savedStoreName };
     currentBranch = parseInt(savedBranch);
-    document.getElementById('storeNameText').textContent = `${savedStoreName} #${currentBranch}`;
+    document.getElementById('storeNameText').textContent = getBranchDisplay();
     await loadCounters();
   } else {
     await showStoreModal();
@@ -650,13 +663,26 @@ function selectStore(store) {
 function showBranchModal() {
   document.getElementById('branchStoreLabel').textContent =
     `${currentStore.name} のカウンター番号を選んでください`;
+  const grid = document.getElementById('branchGrid');
+  grid.innerHTML = BRANCH_CHARS.map(ch =>
+    `<button class="branch-btn" onclick="selectBranch(${ch.num})">
+      <span class="branch-icon">${ch.icon}</span>
+      <span>${ch.num}</span>
+      <span class="branch-label">${ch.name}</span>
+    </button>`
+  ).join('');
   document.getElementById('branchModal').classList.remove('hidden');
+}
+
+function getBranchDisplay() {
+  const ch = BRANCH_CHARS.find(c => c.num === currentBranch);
+  return ch ? `${currentStore.name} ${ch.icon}#${currentBranch}` : `${currentStore.name} #${currentBranch}`;
 }
 
 function selectBranch(num) {
   currentBranch = num;
   localStorage.setItem('gachi_counter_branch', num);
-  document.getElementById('storeNameText').textContent = `${currentStore.name} #${currentBranch}`;
+  document.getElementById('storeNameText').textContent = getBranchDisplay();
   document.getElementById('branchModal').classList.add('hidden');
   loadCounters();
 }
