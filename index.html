@@ -1,0 +1,711 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>バードカウンター</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Segoe UI', 'Yu Gothic UI', 'Meiryo', sans-serif;
+    background: linear-gradient(135deg, #e8f5e9 0%, #f1f8e9 50%, #fff8e1 100%);
+    min-height: 100vh;
+    color: #3e2723;
+  }
+
+  /* ===== ヘッダー ===== */
+  .header {
+    background: linear-gradient(135deg, #2e7d32, #388e3c);
+    color: white;
+    padding: 16px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  }
+  .header-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .header-icon {
+    font-size: 36px;
+    line-height: 1;
+  }
+  .header-title {
+    font-size: 24px;
+    font-weight: bold;
+    letter-spacing: 2px;
+  }
+  .header-subtitle {
+    font-size: 12px;
+    opacity: 0.85;
+  }
+  .header-right {
+    text-align: right;
+  }
+  .store-name {
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .store-name:hover { opacity: 0.8; }
+  .business-date {
+    font-size: 14px;
+    opacity: 0.9;
+    margin-top: 2px;
+  }
+
+  /* ===== メインコンテンツ ===== */
+  .main {
+    max-width: 900px;
+    margin: 24px auto;
+    padding: 0 16px;
+  }
+
+  /* カウンターペア（配布＋戻り） */
+  .counter-pair {
+    background: white;
+    border-radius: 16px;
+    box-shadow: 0 3px 12px rgba(0,0,0,0.08);
+    margin-bottom: 20px;
+    overflow: hidden;
+  }
+  .pair-header {
+    background: linear-gradient(135deg, #4caf50, #66bb6a);
+    color: white;
+    padding: 10px 20px;
+    font-size: 16px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .pair-header.coupon { background: linear-gradient(135deg, #ef6c00, #ff9800); }
+  .pair-header.meishi { background: linear-gradient(135deg, #1565c0, #42a5f5); }
+  .pair-header.dm { background: linear-gradient(135deg, #6a1b9a, #ab47bc); }
+
+  .pair-body {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+  }
+  .counter-card {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    border-right: 1px solid #e0e0e0;
+  }
+  .counter-card:last-child { border-right: none; }
+  .counter-card.return-card {
+    background: #fafafa;
+  }
+
+  .card-label {
+    font-size: 14px;
+    font-weight: 600;
+    color: #616161;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .card-label .arrow-out { color: #e53935; }
+  .card-label .arrow-in { color: #2e7d32; }
+
+  .count-display {
+    font-size: 56px;
+    font-weight: bold;
+    color: #212121;
+    min-width: 100px;
+    text-align: center;
+    line-height: 1;
+    user-select: none;
+  }
+
+  .btn-group {
+    display: flex;
+    gap: 12px;
+  }
+  .btn {
+    border: none;
+    border-radius: 50%;
+    width: 56px;
+    height: 56px;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.1s, box-shadow 0.1s;
+    color: white;
+  }
+  .btn:active {
+    transform: scale(0.92);
+  }
+  .btn-plus {
+    background: linear-gradient(135deg, #43a047, #66bb6a);
+    box-shadow: 0 3px 8px rgba(67,160,71,0.35);
+  }
+  .btn-plus:hover {
+    box-shadow: 0 4px 12px rgba(67,160,71,0.5);
+  }
+  .btn-minus {
+    background: linear-gradient(135deg, #e53935, #ef5350);
+    box-shadow: 0 3px 8px rgba(229,57,53,0.35);
+  }
+  .btn-minus:hover {
+    box-shadow: 0 4px 12px rgba(229,57,53,0.5);
+  }
+
+  /* ===== 合計バー ===== */
+  .total-bar {
+    background: white;
+    border-radius: 16px;
+    box-shadow: 0 3px 12px rgba(0,0,0,0.08);
+    padding: 16px 24px;
+    margin-bottom: 20px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    text-align: center;
+  }
+  .total-item {
+    padding: 8px;
+  }
+  .total-label {
+    font-size: 12px;
+    color: #757575;
+    margin-bottom: 4px;
+  }
+  .total-value {
+    font-size: 20px;
+    font-weight: bold;
+  }
+
+  /* ===== モーダル ===== */
+  .modal-overlay {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+  }
+  .modal-overlay.hidden { display: none; }
+  .modal {
+    background: white;
+    border-radius: 20px;
+    padding: 32px;
+    max-width: 420px;
+    width: 90%;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+    text-align: center;
+  }
+  .modal h2 {
+    font-size: 22px;
+    margin-bottom: 8px;
+    color: #2e7d32;
+  }
+  .modal p {
+    font-size: 14px;
+    color: #757575;
+    margin-bottom: 20px;
+  }
+  .modal .bird-icon {
+    font-size: 48px;
+    margin-bottom: 12px;
+  }
+  .store-list {
+    list-style: none;
+    max-height: 300px;
+    overflow-y: auto;
+  }
+  .store-list li {
+    padding: 14px 20px;
+    border: 2px solid #e0e0e0;
+    border-radius: 12px;
+    margin-bottom: 8px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 600;
+    transition: all 0.15s;
+  }
+  .store-list li:hover {
+    border-color: #4caf50;
+    background: #e8f5e9;
+    color: #2e7d32;
+  }
+
+  /* ===== エラー・ローディング ===== */
+  .loading {
+    text-align: center;
+    padding: 60px;
+    font-size: 18px;
+    color: #757575;
+  }
+  .loading .spinner {
+    font-size: 40px;
+    animation: spin 1s linear infinite;
+    display: inline-block;
+    margin-bottom: 12px;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  .error-banner {
+    background: #fff3e0;
+    border: 1px solid #ff9800;
+    border-radius: 12px;
+    padding: 12px 20px;
+    margin: 16px auto;
+    max-width: 900px;
+    color: #e65100;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .error-banner.hidden { display: none; }
+
+  .config-banner {
+    background: #e3f2fd;
+    border: 1px solid #2196f3;
+    border-radius: 12px;
+    padding: 16px 20px;
+    margin: 16px auto;
+    max-width: 900px;
+    color: #1565c0;
+    font-size: 14px;
+    line-height: 1.6;
+  }
+
+  /* フッター */
+  .footer {
+    text-align: center;
+    padding: 20px;
+    color: #9e9e9e;
+    font-size: 12px;
+  }
+
+  /* レスポンシブ */
+  @media (max-width: 600px) {
+    .header { flex-direction: column; gap: 8px; text-align: center; }
+    .header-right { text-align: center; }
+    .count-display { font-size: 40px; }
+    .btn { width: 48px; height: 48px; font-size: 24px; }
+    .total-bar { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ===== ヘッダー ===== -->
+<div class="header">
+  <div class="header-left">
+    <span class="header-icon">🐦</span>
+    <div>
+      <div class="header-title">バードカウンター</div>
+      <div class="header-subtitle">Bird Counter for MOOV</div>
+    </div>
+  </div>
+  <div class="header-right">
+    <div class="store-name" id="storeNameDisplay" onclick="showStoreModal()" title="クリックで店舗変更">
+      <span id="storeNameText">---</span>
+      <span style="font-size:12px">&#9660;</span>
+    </div>
+    <div class="business-date" id="businessDateDisplay">---</div>
+  </div>
+</div>
+
+<!-- エラー表示 -->
+<div class="error-banner hidden" id="errorBanner">
+  <span>&#9888;</span>
+  <span id="errorMessage"></span>
+</div>
+
+<!-- 設定未完了バナー（デフォルト表示、設定済みならJSで非表示に） -->
+<div class="config-banner" id="configBanner">
+  <strong>&#9881; Supabase未設定</strong><br>
+  index.html内の <code>SUPABASE_URL</code> と <code>SUPABASE_ANON_KEY</code> を設定してください。<br>
+  詳しくは README.md をご覧ください。
+</div>
+
+<!-- ===== メインコンテンツ ===== -->
+<div class="main" id="mainContent">
+  <div class="loading" id="loadingIndicator">
+    <div style="font-size:48px;margin-bottom:16px">&#128295;</div>
+    <div>Supabaseの設定が必要です</div>
+    <div style="font-size:14px;margin-top:8px;color:#9e9e9e">README.mdの手順に従って設定してください</div>
+  </div>
+</div>
+
+<!-- ===== 店舗選択モーダル ===== -->
+<div class="modal-overlay hidden" id="storeModal">
+  <div class="modal">
+    <div class="bird-icon">🦉</div>
+    <h2>店舗を選択してください</h2>
+    <p>カウントデータは選択した店舗に紐づけて保存されます</p>
+    <ul class="store-list" id="storeList"></ul>
+  </div>
+</div>
+
+<script>
+// ===========================================
+// 設定 - Supabase接続情報
+// ===========================================
+// ★★★ 以下を自分のSupabaseプロジェクトの値に変更してください ★★★
+const SUPABASE_URL = 'YOUR_SUPABASE_URL';
+const SUPABASE_ANON_KEY = 'YOUR_SUPABASE_ANON_KEY';
+
+// ===========================================
+// カテゴリ定義
+// ===========================================
+const CATEGORIES = [
+  {
+    group: 'ビギナーズクーポン',
+    icon: '🎫',
+    colorClass: 'coupon',
+    items: [
+      { key: 'beginners_coupon_out', label: '配布', direction: 'out' },
+      { key: 'beginners_coupon_return', label: '戻り', direction: 'in' },
+    ]
+  },
+  {
+    group: '名刺',
+    icon: '💳',
+    colorClass: 'meishi',
+    items: [
+      { key: 'meishi_out', label: '配布', direction: 'out' },
+      { key: 'meishi_return', label: '戻り', direction: 'in' },
+    ]
+  },
+  {
+    group: 'お礼DM',
+    icon: '💌',
+    colorClass: 'dm',
+    items: [
+      { key: 'thanks_dm_out', label: '配布', direction: 'out' },
+      { key: 'thanks_dm_return', label: '戻り', direction: 'in' },
+    ]
+  },
+];
+
+// ===========================================
+// グローバル変数
+// ===========================================
+let supabase = null;
+let currentStore = null;
+let counters = {};
+let isConfigured = false;
+
+// ===========================================
+// 営業日計算（7時区切り）
+// ===========================================
+function getBusinessDate() {
+  const now = new Date();
+  // 7時より前なら前日
+  if (now.getHours() < 7) {
+    const yesterday = new Date(now);
+    yesterday.setDate(yesterday.getDate() - 1);
+    return formatDate(yesterday);
+  }
+  return formatDate(now);
+}
+
+function formatDate(d) {
+  const y = d.getFullYear();
+  const m = String(d.getMonth() + 1).padStart(2, '0');
+  const day = String(d.getDate()).padStart(2, '0');
+  return `${y}-${m}-${day}`;
+}
+
+function formatDateJP(dateStr) {
+  const [y, m, d] = dateStr.split('-');
+  return `${y}年${parseInt(m)}月${parseInt(d)}日`;
+}
+
+// ===========================================
+// 初期化
+// ===========================================
+async function init() {
+  // Supabase設定チェック
+  if (SUPABASE_URL === 'YOUR_SUPABASE_URL' || SUPABASE_ANON_KEY === 'YOUR_SUPABASE_ANON_KEY') {
+    isConfigured = false;
+    // デフォルトで未設定状態が表示されるのでそのままreturn
+    return;
+  }
+
+  // 設定済み: バナーを隠してローディング表示に切り替え
+  document.getElementById('configBanner').classList.add('hidden');
+  document.getElementById('loadingIndicator').innerHTML =
+    '<div class="spinner">&#x1F426;</div><div>データを読み込んでいます...</div>';
+
+  isConfigured = true;
+
+  try {
+    supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+  } catch (e) {
+    showError('Supabaseへの接続に失敗しました: ' + e.message);
+    return;
+  }
+
+  // 営業日表示
+  const businessDate = getBusinessDate();
+  document.getElementById('businessDateDisplay').textContent = formatDateJP(businessDate);
+
+  // 店舗チェック
+  const savedStoreId = localStorage.getItem('bird_counter_store_id');
+  const savedStoreName = localStorage.getItem('bird_counter_store_name');
+
+  if (savedStoreId && savedStoreName) {
+    currentStore = { id: savedStoreId, name: savedStoreName };
+    document.getElementById('storeNameText').textContent = savedStoreName;
+    await loadCounters();
+  } else {
+    await showStoreModal();
+  }
+}
+
+// ===========================================
+// 店舗選択
+// ===========================================
+async function showStoreModal() {
+  if (!isConfigured) return;
+
+  const modal = document.getElementById('storeModal');
+  const list = document.getElementById('storeList');
+  list.innerHTML = '<li style="color:#999;cursor:default">読み込み中...</li>';
+  modal.classList.remove('hidden');
+
+  try {
+    const { data, error } = await supabase.from('stores').select('*').order('name');
+    if (error) throw error;
+
+    if (!data || data.length === 0) {
+      list.innerHTML = '<li style="color:#999;cursor:default">店舗データがありません。<br>Supabaseのstoresテーブルにデータを追加してください。</li>';
+      return;
+    }
+
+    list.innerHTML = '';
+    data.forEach(store => {
+      const li = document.createElement('li');
+      li.textContent = store.name;
+      li.onclick = () => selectStore(store);
+      list.appendChild(li);
+    });
+  } catch (e) {
+    showError('店舗データの取得に失敗しました: ' + e.message);
+    list.innerHTML = '<li style="color:#e53935;cursor:default">エラーが発生しました</li>';
+  }
+}
+
+function selectStore(store) {
+  currentStore = store;
+  localStorage.setItem('bird_counter_store_id', store.id);
+  localStorage.setItem('bird_counter_store_name', store.name);
+  document.getElementById('storeNameText').textContent = store.name;
+  document.getElementById('storeModal').classList.add('hidden');
+  loadCounters();
+}
+
+// ===========================================
+// カウンターデータ読み込み
+// ===========================================
+async function loadCounters() {
+  const businessDate = getBusinessDate();
+
+  try {
+    const { data, error } = await supabase
+      .from('counts')
+      .select('*')
+      .eq('store_id', currentStore.id)
+      .eq('business_date', businessDate);
+
+    if (error) throw error;
+
+    // カウンター初期化
+    counters = {};
+    CATEGORIES.forEach(cat => {
+      cat.items.forEach(item => {
+        counters[item.key] = 0;
+      });
+    });
+
+    // DBから取得した値を反映
+    if (data) {
+      data.forEach(row => {
+        counters[row.category] = row.count;
+      });
+    }
+
+    renderCounters();
+  } catch (e) {
+    showError('データの読み込みに失敗しました: ' + e.message);
+  }
+}
+
+// ===========================================
+// カウンター表示
+// ===========================================
+function renderCounters() {
+  const main = document.getElementById('mainContent');
+  let html = '';
+
+  // カウンターペア
+  CATEGORIES.forEach(cat => {
+    html += `
+      <div class="counter-pair">
+        <div class="pair-header ${cat.colorClass}">
+          <span>${cat.icon}</span>
+          <span>${cat.group}</span>
+        </div>
+        <div class="pair-body">`;
+
+    cat.items.forEach(item => {
+      const isReturn = item.direction === 'in';
+      const arrowClass = isReturn ? 'arrow-in' : 'arrow-out';
+      const arrow = isReturn ? '&#8592; ' : '&#8594; ';
+      html += `
+          <div class="counter-card ${isReturn ? 'return-card' : ''}">
+            <div class="card-label">
+              <span class="${arrowClass}">${arrow}</span>${item.label}
+            </div>
+            <div class="count-display" id="count-${item.key}">${counters[item.key]}</div>
+            <div class="btn-group">
+              <button class="btn btn-minus" onclick="updateCount('${item.key}', -1)" title="1減らす">−</button>
+              <button class="btn btn-plus" onclick="updateCount('${item.key}', 1)" title="1増やす">＋</button>
+            </div>
+          </div>`;
+    });
+
+    html += `
+        </div>
+      </div>`;
+  });
+
+  // 合計バー
+  html += `
+    <div class="total-bar">
+      ${CATEGORIES.map(cat => {
+        const outKey = cat.items.find(i => i.direction === 'out').key;
+        const inKey = cat.items.find(i => i.direction === 'in').key;
+        const net = counters[outKey] - counters[inKey];
+        return `
+          <div class="total-item">
+            <div class="total-label">${cat.icon} ${cat.group} 残</div>
+            <div class="total-value" id="net-${cat.colorClass}">${net}</div>
+          </div>`;
+      }).join('')}
+    </div>`;
+
+  // フッター
+  html += `
+    <div class="footer">
+      🐦 バードカウンター v1.0 | 営業日: ${formatDateJP(getBusinessDate())}
+    </div>`;
+
+  main.innerHTML = html;
+}
+
+// ===========================================
+// カウント更新
+// ===========================================
+async function updateCount(category, delta) {
+  const newCount = counters[category] + delta;
+
+  // 0未満にはしない
+  if (newCount < 0) return;
+
+  // UI即座に更新（楽観的更新）
+  counters[category] = newCount;
+  const el = document.getElementById(`count-${category}`);
+  if (el) {
+    el.textContent = newCount;
+    // アニメーション
+    el.style.transform = 'scale(1.2)';
+    setTimeout(() => { el.style.transform = 'scale(1)'; }, 150);
+  }
+
+  // 合計も更新
+  updateTotals();
+
+  // DB更新
+  const businessDate = getBusinessDate();
+  try {
+    const { error } = await supabase
+      .from('counts')
+      .upsert({
+        store_id: currentStore.id,
+        business_date: businessDate,
+        category: category,
+        count: newCount,
+      }, {
+        onConflict: 'store_id,business_date,category'
+      });
+
+    if (error) throw error;
+    hideError();
+  } catch (e) {
+    // ロールバック
+    counters[category] = newCount - delta;
+    if (el) el.textContent = counters[category];
+    updateTotals();
+    showError('保存に失敗しました: ' + e.message);
+  }
+}
+
+function updateTotals() {
+  CATEGORIES.forEach(cat => {
+    const outKey = cat.items.find(i => i.direction === 'out').key;
+    const inKey = cat.items.find(i => i.direction === 'in').key;
+    const net = counters[outKey] - counters[inKey];
+    const el = document.getElementById(`net-${cat.colorClass}`);
+    if (el) el.textContent = net;
+  });
+}
+
+// ===========================================
+// エラー表示
+// ===========================================
+function showError(msg) {
+  const banner = document.getElementById('errorBanner');
+  document.getElementById('errorMessage').textContent = msg;
+  banner.classList.remove('hidden');
+}
+
+function hideError() {
+  document.getElementById('errorBanner').classList.add('hidden');
+}
+
+// ===========================================
+// 営業日切り替え監視（毎分チェック）
+// ===========================================
+let lastBusinessDate = getBusinessDate();
+setInterval(() => {
+  const currentDate = getBusinessDate();
+  if (currentDate !== lastBusinessDate) {
+    lastBusinessDate = currentDate;
+    document.getElementById('businessDateDisplay').textContent = formatDateJP(currentDate);
+    if (currentStore) loadCounters();
+  }
+}, 60000);
+
+// ===========================================
+// 起動
+// ===========================================
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', init);
+} else {
+  init();
+}
+</script>
+</body>
+</html>
