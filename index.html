@@ -274,6 +274,7 @@
     gap: 8px;
   }
   .error-banner.hidden { display: none; }
+  .config-banner.hidden { display: none; }
 
   .config-banner {
     background: #e3f2fd;
@@ -362,8 +363,8 @@
 // 設定 - Supabase接続情報
 // ===========================================
 // ★★★ 以下を自分のSupabaseプロジェクトの値に変更してください ★★★
-const SUPABASE_URL = 'YOUR_SUPABASE_URL';
-const SUPABASE_ANON_KEY = 'YOUR_SUPABASE_ANON_KEY';
+const SUPABASE_URL = 'https://xjyqbxvthjjimrvcvaih.supabase.co';
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhqeXFieHZ0aGpqaW1ydmN2YWloIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM0MzkzNzAsImV4cCI6MjA4OTAxNTM3MH0.VlWbEr4HB66oJrdg55i9z8Llvi87BGmnpHgDLLU8sos';
 
 // ===========================================
 // カテゴリ定義
@@ -401,7 +402,7 @@ const CATEGORIES = [
 // ===========================================
 // グローバル変数
 // ===========================================
-let supabase = null;
+let db = null;
 let currentStore = null;
 let counters = {};
 let isConfigured = false;
@@ -451,7 +452,7 @@ async function init() {
   isConfigured = true;
 
   try {
-    supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    db = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
   } catch (e) {
     showError('Supabaseへの接続に失敗しました: ' + e.message);
     return;
@@ -486,7 +487,7 @@ async function showStoreModal() {
   modal.classList.remove('hidden');
 
   try {
-    const { data, error } = await supabase.from('stores').select('*').order('name');
+    const { data, error } = await db.from('stores').select('*').order('name');
     if (error) throw error;
 
     if (!data || data.length === 0) {
@@ -523,7 +524,7 @@ async function loadCounters() {
   const businessDate = getBusinessDate();
 
   try {
-    const { data, error } = await supabase
+    const { data, error } = await db
       .from('counts')
       .select('*')
       .eq('store_id', currentStore.id)
@@ -640,7 +641,7 @@ async function updateCount(category, delta) {
   // DB更新
   const businessDate = getBusinessDate();
   try {
-    const { error } = await supabase
+    const { error } = await db
       .from('counts')
       .upsert({
         store_id: currentStore.id,
