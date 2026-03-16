@@ -1,0 +1,13 @@
+{
+  "hosting": {
+    "site": "gachi-counter",
+    "public": ".",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**",
+      "*.sql",
+      "README.md"
+    ]
+  }
+}

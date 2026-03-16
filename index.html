@@ -490,6 +490,133 @@
     position: relative;
     z-index: 1;
   }
+  .footer-disc-btn {
+    display: inline-block;
+    margin-top: 8px;
+    background: linear-gradient(135deg, #4a3a8a, #3a2a7a);
+    color: #e0d0ff;
+    border: 2px solid #7a6aba;
+    padding: 10px 28px;
+    border-radius: 24px;
+    font-family: 'DotGothic16', sans-serif;
+    font-size: 17px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .footer-disc-btn:hover {
+    background: linear-gradient(135deg, #5a4a9a, #4a3a8a);
+    box-shadow: 0 0 12px rgba(120,100,200,0.5);
+    transform: translateY(-1px);
+  }
+
+  /* ===== 違算報告モーダル ===== */
+  .disc-step { display: none; }
+  .disc-step.active { display: block; }
+  .disc-modal { max-width: 520px; width: 90%; }
+  .disc-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+  .disc-header h2 { margin: 0; font-size: 18px; color: #c8a84e; }
+  .disc-back-btn {
+    background: none; border: 1px solid #555577; color: #8888aa;
+    padding: 4px 12px; border-radius: 4px; cursor: pointer; font-family: 'DotGothic16', sans-serif; font-size: 12px;
+  }
+  .disc-back-btn:hover { border-color: #8888aa; color: #c0c0c0; }
+  .disc-menu-btns { display: flex; flex-direction: column; gap: 12px; align-items: center; padding: 20px 0; }
+  .disc-menu-btn {
+    width: 260px; padding: 16px; border: 2px solid #c8a84e; border-radius: 8px;
+    background: rgba(200,168,78,0.08); color: #e0e0e0; cursor: pointer;
+    font-family: 'DotGothic16', sans-serif; font-size: 14px; text-align: center; transition: all 0.2s;
+  }
+  .disc-menu-btn:hover { background: rgba(200,168,78,0.2); box-shadow: 0 0 12px rgba(200,168,78,0.3); }
+  .disc-menu-btn .disc-menu-icon { font-size: 24px; display: block; margin-bottom: 4px; }
+  .disc-menu-btn .disc-menu-sub { font-size: 11px; color: #8888aa; }
+  .disc-form-group { margin-bottom: 14px; text-align: left; }
+  .disc-form-group label { display: block; color: #c8a84e; font-size: 13px; margin-bottom: 4px; }
+  .disc-form-input {
+    width: 100%; padding: 10px; background: #1a1a3e; border: 2px solid #333366;
+    border-radius: 6px; color: #e0e0e0; font-family: 'DotGothic16', sans-serif; font-size: 14px; box-sizing: border-box;
+  }
+  .disc-form-input:focus { border-color: #c8a84e; outline: none; }
+  .disc-textarea {
+    min-height: 60px; resize: vertical; line-height: 1.5;
+  }
+  .disc-amount-display { margin-top: 4px; font-size: 15px; font-weight: bold; padding: 4px 8px; border-radius: 4px; }
+  .disc-amount-excess { color: #4488ff; background: rgba(68,136,255,0.1); }
+  .disc-amount-shortage { color: #ff4444; background: rgba(255,68,68,0.1); }
+  .disc-btn-row { display: flex; gap: 8px; margin-top: 16px; }
+  .disc-submit-btn {
+    flex: 1; padding: 12px; background: linear-gradient(135deg, #2e7d32, #1b5e20); color: white;
+    border: none; border-radius: 6px; font-family: 'DotGothic16', sans-serif; font-size: 14px; cursor: pointer; transition: all 0.2s;
+  }
+  .disc-submit-btn:hover:not(:disabled) { background: linear-gradient(135deg, #388e3c, #2e7d32); box-shadow: 0 0 12px rgba(46,125,50,0.4); }
+  .disc-submit-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+  .disc-cancel-btn {
+    padding: 12px 20px; background: none; border: 1px solid #555577; color: #8888aa;
+    border-radius: 6px; font-family: 'DotGothic16', sans-serif; font-size: 14px; cursor: pointer;
+  }
+  .disc-cancel-btn:hover { border-color: #8888aa; color: #c0c0c0; }
+  .disc-msg { padding: 8px 12px; border-radius: 6px; margin-bottom: 10px; font-size: 13px; }
+  .disc-msg.success { background: rgba(46,125,50,0.2); color: #66bb6a; border-left: 3px solid #66bb6a; }
+  .disc-msg.error { background: rgba(198,40,40,0.2); color: #ef5350; border-left: 3px solid #ef5350; }
+  .disc-store-banner {
+    background: rgba(200,168,78,0.15); border: 1px solid #c8a84e; border-radius: 6px;
+    padding: 10px 14px; margin-bottom: 14px; display: flex; align-items: center; gap: 10px;
+  }
+  .disc-store-code { background: #c8a84e; color: #0a0a2e; padding: 2px 8px; border-radius: 4px; font-size: 12px; }
+  .disc-store-name { color: #c8a84e; font-size: 16px; }
+  .disc-tabs { display: flex; border-bottom: 2px solid #333366; margin-bottom: 14px; }
+  .disc-tab {
+    flex: 1; padding: 10px; background: none; border: none; color: #8888aa;
+    font-family: 'DotGothic16', sans-serif; font-size: 13px; cursor: pointer;
+    border-bottom: 2px solid transparent; margin-bottom: -2px; transition: all 0.2s;
+  }
+  .disc-tab.active { color: #c8a84e; border-bottom-color: #c8a84e; }
+  .disc-tab:hover:not(.active) { color: #aaaacc; }
+  .disc-store-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  .disc-store-table th { background: #1a1a3e; color: #c8a84e; padding: 8px; text-align: left; border-bottom: 2px solid #333366; }
+  .disc-store-table td { padding: 6px 8px; border-bottom: 1px solid #222244; color: #e0e0e0; }
+  .disc-store-table tr:hover { background: rgba(200,168,78,0.05); }
+  .disc-table-wrap { max-height: 300px; overflow-y: auto; border: 1px solid #333366; border-radius: 6px; }
+  .disc-small-btn {
+    padding: 3px 8px; border: none; border-radius: 4px; font-family: 'DotGothic16', sans-serif;
+    font-size: 11px; cursor: pointer; transition: all 0.2s;
+  }
+  .disc-edit-btn { background: #ff9800; color: #000; }
+  .disc-del-btn { background: #f44336; color: #fff; }
+  .disc-save-btn { background: #4caf50; color: #fff; }
+  .disc-add-row { display: flex; gap: 6px; margin-bottom: 12px; }
+  .disc-add-input {
+    padding: 8px; background: #1a1a3e; border: 2px solid #333366; border-radius: 6px;
+    color: #e0e0e0; font-family: 'DotGothic16', sans-serif; font-size: 13px; box-sizing: border-box;
+  }
+  .disc-add-input:focus { border-color: #c8a84e; outline: none; }
+  .disc-add-btn {
+    padding: 8px 14px; background: #c8a84e; color: #0a0a2e; border: none; border-radius: 6px;
+    font-family: 'DotGothic16', sans-serif; font-size: 13px; cursor: pointer; white-space: nowrap;
+  }
+  .disc-date-row { display: flex; align-items: flex-end; gap: 8px; margin-bottom: 14px; }
+  .disc-date-field { flex: 1; }
+  .disc-date-field label { display: block; color: #c8a84e; font-size: 12px; margin-bottom: 4px; }
+  .disc-export-btn {
+    padding: 12px 24px; background: linear-gradient(135deg, #1976d2, #1565c0); color: white;
+    border: none; border-radius: 6px; font-family: 'DotGothic16', sans-serif; font-size: 14px;
+    cursor: pointer; display: block; margin: 0 auto; transition: all 0.2s;
+  }
+  .disc-export-btn:hover:not(:disabled) { box-shadow: 0 0 12px rgba(25,118,210,0.4); }
+  .disc-export-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+  .disc-complete { text-align: center; padding: 20px; }
+  .disc-complete-icon { font-size: 40px; margin-bottom: 8px; }
+  .disc-complete h3 { color: #66bb6a; margin-bottom: 12px; }
+  .disc-complete-details { background: rgba(255,255,255,0.05); padding: 12px; border-radius: 6px; text-align: left; margin-bottom: 16px; }
+  .disc-complete-details p { margin: 4px 0; font-size: 13px; color: #aaaacc; }
+  .disc-hint { font-size: 11px; color: #555577; margin-top: 4px; }
+  .disc-init-box {
+    background: rgba(255,152,0,0.1); border: 2px solid #ff9800; border-radius: 8px;
+    padding: 14px; margin-bottom: 14px; text-align: center;
+  }
+  .disc-init-btn {
+    padding: 10px 20px; background: #ff9800; color: #000; border: none; border-radius: 6px;
+    font-family: 'DotGothic16', sans-serif; font-size: 13px; cursor: pointer; margin-top: 8px;
+  }
 
   /* ===== カウント変更アニメーション ===== */
   @keyframes dmg-pop {
@@ -886,6 +1013,98 @@
   </div>
 </div>
 
+<!-- ===== 違算報告モーダル ===== -->
+<div class="modal-overlay hidden" id="discModal">
+  <div class="cmd-modal disc-modal">
+    <!-- メニュー -->
+    <div class="disc-step active" id="discMenu">
+      <div class="disc-header"><h2>🏛️ 違算報告</h2><button class="disc-back-btn" onclick="discClose()">とじる</button></div>
+      <div class="disc-menu-btns">
+        <button class="disc-menu-btn" onclick="discShowLogin()"><span class="disc-menu-icon">📊</span>経理向け<br><span class="disc-menu-sub">店舗登録・報告出力</span></button>
+        <button class="disc-menu-btn" onclick="discShowStore()"><span class="disc-menu-icon">🏪</span>店舗向け<br><span class="disc-menu-sub">違算報告の登録</span></button>
+      </div>
+    </div>
+    <!-- 経理ログイン -->
+    <div class="disc-step" id="discLogin">
+      <div class="disc-header"><h2>🔐 経理認証</h2><button class="disc-back-btn" onclick="discGoMenu()">← もどる</button></div>
+      <div class="disc-form-group">
+        <label>パスワードをいれてください</label>
+        <input type="password" id="discPwInput" class="disc-form-input" placeholder="パスワード">
+      </div>
+      <div id="discPwError"></div>
+      <button class="disc-submit-btn" style="width:100%" onclick="discLoginCheck()">ログイン</button>
+    </div>
+    <!-- 経理画面 -->
+    <div class="disc-step" id="discAccounting">
+      <div class="disc-header"><h2>📊 経理管理</h2><button class="disc-back-btn" onclick="discGoMenu()">← もどる</button></div>
+      <div class="disc-tabs">
+        <button class="disc-tab active" id="discTabStores" onclick="discSwitchTab('stores')">🏪 店舗登録</button>
+        <button class="disc-tab" id="discTabExport" onclick="discSwitchTab('export')">📄 報告出力</button>
+      </div>
+      <div id="discTabContentStores">
+        <div id="discInitBox"></div>
+        <div class="disc-add-row">
+          <input type="text" id="discNewCode" class="disc-add-input" placeholder="店舗コード" style="width:120px">
+          <input type="text" id="discNewName" class="disc-add-input" placeholder="店舗名" style="flex:1">
+          <button class="disc-add-btn" onclick="discAddStore()">➕ 追加</button>
+        </div>
+        <div id="discStoreMsg"></div>
+        <div id="discStoreListArea"><p style="color:#555577;text-align:center">読み込み中...</p></div>
+      </div>
+      <div id="discTabContentExport" style="display:none">
+        <h3 style="color:#c8a84e;font-size:14px;margin-bottom:12px">報告出力（CSV）</h3>
+        <div class="disc-date-row">
+          <div class="disc-date-field"><label>開始日</label><input type="date" id="discExStartDate" class="disc-form-input"></div>
+          <span style="color:#555577;padding-bottom:8px">～</span>
+          <div class="disc-date-field"><label>終了日</label><input type="date" id="discExEndDate" class="disc-form-input"></div>
+        </div>
+        <div id="discExportMsg"></div>
+        <button class="disc-export-btn" id="discExportBtn" onclick="discExportCSV()">📥 CSV出力</button>
+      </div>
+    </div>
+    <!-- 店舗向け：コード入力 -->
+    <div class="disc-step" id="discStoreCode">
+      <div class="disc-header"><h2>🏪 違算報告</h2><button class="disc-back-btn" onclick="discGoMenu()">← もどる</button></div>
+      <div class="disc-form-group">
+        <label>店舗コードをいれてください</label>
+        <input type="text" id="discCodeInput" class="disc-form-input" placeholder="例: 720101" style="text-align:center;font-size:20px;letter-spacing:2px">
+      </div>
+      <div id="discCodeError"></div>
+      <button class="disc-submit-btn" style="width:100%" onclick="discSearchStore()">店舗を検索</button>
+    </div>
+    <!-- 店舗向け：報告フォーム -->
+    <div class="disc-step" id="discReportForm">
+      <div class="disc-header"><h2>🏪 違算報告</h2><button class="disc-back-btn" onclick="discShowStore()">← もどる</button></div>
+      <div class="disc-store-banner" id="discStoreBanner"></div>
+      <div class="disc-form-group"><label>報告者</label><input type="text" id="discReporter" class="disc-form-input" placeholder="報告者名を入力"></div>
+      <div class="disc-form-group"><label>営業日</label><input type="date" id="discBizDate" class="disc-form-input"><span class="disc-hint">※ 7時で日付が切り替わります</span></div>
+      <div class="disc-form-group">
+        <label>違算金額</label>
+        <input type="text" id="discAmount" class="disc-form-input" inputmode="numeric" placeholder="半角数値（正:過剰 / 負:不足）" style="font-size:18px;text-align:right" oninput="discAmountChanged()">
+        <div id="discAmountDisplay"></div>
+      </div>
+      <div class="disc-form-group">
+        <label>違算理由</label>
+        <textarea id="discReason" class="disc-form-input disc-textarea" placeholder="違算理由を詳しく入力してください" oninput="this.style.height='auto';this.style.height=this.scrollHeight+'px'"></textarea>
+      </div>
+      <div id="discFormError"></div>
+      <div class="disc-btn-row">
+        <button class="disc-submit-btn" id="discSubmitBtn" onclick="discSubmitReport()">✅ 報告を確定する</button>
+        <button class="disc-cancel-btn" onclick="discCancelReport()">キャンセル</button>
+      </div>
+    </div>
+    <!-- 完了画面 -->
+    <div class="disc-step" id="discComplete">
+      <div class="disc-complete">
+        <div class="disc-complete-icon">✅</div>
+        <h3>違算報告を登録しました</h3>
+        <div class="disc-complete-details" id="discCompleteDetails"></div>
+        <button class="disc-submit-btn" style="width:100%" onclick="discShowStore()">新しい報告を登録する</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <!-- ===== 復活の呪文モーダル ===== -->
 <div class="modal-overlay hidden" id="spellModal">
   <div class="modal">
@@ -964,7 +1183,7 @@
       <h2>👤 担当者登録</h2>
       <div style="text-align:left;max-width:300px;margin:0 auto">
         <label style="color:#e0e0e0;font-size:13px">バーコードを入力してください</label>
-        <input type="text" id="staffBarcodeInput" class="staff-form-input" placeholder="バーコード番号">
+        <input type="text" id="staffBarcodeInput" class="staff-form-input" placeholder="バーコード番号" inputmode="numeric" oninput="this.value=this.value.replace(/[０-９]/g,s=>String.fromCharCode(s.charCodeAt(0)-0xFEE0)).replace(/[^0-9a-zA-Z\-]/g,'')">
         <label style="color:#e0e0e0;font-size:13px">担当者名（ニックネーム）をいれてください</label>
         <input type="text" id="staffNicknameInput" class="staff-form-input" placeholder="ニックネーム">
       </div>
@@ -978,7 +1197,7 @@
       <h2>👤 担当者編集</h2>
       <div style="text-align:left;max-width:300px;margin:0 auto">
         <label style="color:#e0e0e0;font-size:13px">バーコード</label>
-        <input type="text" id="staffEditBarcodeInput" class="staff-form-input">
+        <input type="text" id="staffEditBarcodeInput" class="staff-form-input" inputmode="numeric" oninput="this.value=this.value.replace(/[０-９]/g,s=>String.fromCharCode(s.charCodeAt(0)-0xFEE0)).replace(/[^0-9a-zA-Z\-]/g,'')">
         <label style="color:#e0e0e0;font-size:13px">担当者名（ニックネーム）</label>
         <input type="text" id="staffEditNicknameInput" class="staff-form-input">
         <input type="hidden" id="staffEditId">
@@ -1494,7 +1713,8 @@ function renderCounters() {
   // フッター
   html += `
     <div class="footer">
-      買取王国大西さとしくん原案：ガチクーポンクエスト２ | 営業日: ${formatDateJP(getBusinessDate())}
+      買取王国大西さとしくん原案：ガチクーポンクエスト２ | 営業日: ${formatDateJP(getBusinessDate())}<br>
+      <button class="footer-disc-btn" onclick="discOpen()">🏛️ 違算報告</button>
     </div>`;
 
   main.innerHTML = html;
@@ -2122,6 +2342,257 @@ setInterval(() => {
     if (currentStore) loadCounters();
   }
 }, 60000);
+
+// ===========================================
+// 違算報告
+// ===========================================
+const DISC_PW = 'keiriokoku1038';
+let discStores = [];
+let discSelectedStore = null;
+
+function discOpen() {
+  document.getElementById('discModal').classList.remove('hidden');
+  discGoMenu();
+}
+function discClose() {
+  document.getElementById('discModal').classList.add('hidden');
+}
+function discGoMenu() {
+  document.querySelectorAll('.disc-step').forEach(el => el.classList.remove('active'));
+  document.getElementById('discMenu').classList.add('active');
+}
+function discShowStep(id) {
+  document.querySelectorAll('.disc-step').forEach(el => el.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+}
+function discShowLogin() {
+  discShowStep('discLogin');
+  document.getElementById('discPwInput').value = '';
+  document.getElementById('discPwError').innerHTML = '';
+  setTimeout(() => document.getElementById('discPwInput').focus(), 100);
+}
+function discLoginCheck() {
+  if (document.getElementById('discPwInput').value === DISC_PW) {
+    discShowStep('discAccounting');
+    discSwitchTab('stores');
+    discLoadStores();
+  } else {
+    document.getElementById('discPwError').innerHTML = '<div class="disc-msg error">パスワードが正しくありません</div>';
+  }
+}
+function discShowStore() {
+  discShowStep('discStoreCode');
+  document.getElementById('discCodeInput').value = '';
+  document.getElementById('discCodeError').innerHTML = '';
+  discSelectedStore = null;
+  setTimeout(() => document.getElementById('discCodeInput').focus(), 100);
+}
+
+// --- 経理：タブ切替 ---
+function discSwitchTab(tab) {
+  document.getElementById('discTabStores').classList.toggle('active', tab === 'stores');
+  document.getElementById('discTabExport').classList.toggle('active', tab === 'export');
+  document.getElementById('discTabContentStores').style.display = tab === 'stores' ? '' : 'none';
+  document.getElementById('discTabContentExport').style.display = tab === 'export' ? '' : 'none';
+}
+
+// --- 経理：店舗一覧 ---
+async function discLoadStores() {
+  const { data, error } = await db.from('discrepancy_stores').select('*').order('store_code');
+  if (error) { console.error(error); return; }
+  discStores = data || [];
+  discRenderStores();
+}
+function discRenderStores() {
+  const area = document.getElementById('discStoreListArea');
+  const initBox = document.getElementById('discInitBox');
+  if (discStores.length === 0) {
+    initBox.innerHTML = `<div class="disc-init-box">
+      <p style="color:#ff9800;font-size:13px">📦 初期データ投入</p>
+      <p style="font-size:12px;color:#aaa;margin:4px 0 8px">経理用店舗マスタ（96件）を一括登録します</p>
+      <button class="disc-init-btn" onclick="discBulkImport()">🚀 一括登録を実行</button>
+      <div id="discInitResult"></div>
+    </div>`;
+  } else {
+    initBox.innerHTML = '';
+  }
+  if (discStores.length === 0) { area.innerHTML = '<p style="color:#555577;text-align:center">店舗が登録されていません</p>'; return; }
+  let html = `<p style="color:#8888aa;font-size:12px;margin-bottom:6px">登録店舗: ${discStores.length}件</p><div class="disc-table-wrap"><table class="disc-store-table"><thead><tr><th>コード</th><th>店舗名</th><th>操作</th></tr></thead><tbody>`;
+  discStores.forEach(s => {
+    html += `<tr id="discRow_${s.id}"><td>${s.store_code}</td><td>${s.store_name}</td><td><button class="disc-small-btn disc-edit-btn" onclick="discEditStore('${s.id}')">✏️</button> <button class="disc-small-btn disc-del-btn" onclick="discDelStore('${s.id}','${s.store_name}')">🗑️</button></td></tr>`;
+  });
+  html += '</tbody></table></div>';
+  area.innerHTML = html;
+}
+
+// --- 経理：店舗追加 ---
+async function discAddStore() {
+  const code = document.getElementById('discNewCode').value.trim();
+  const name = document.getElementById('discNewName').value.trim();
+  if (!code || !name) { discShowStoreMsg('店舗コードと店舗名を入力してください', 'error'); return; }
+  const { error } = await db.from('discrepancy_stores').insert({ store_code: code, store_name: name });
+  if (error) { discShowStoreMsg(error.message.includes('unique') ? `コード${code}は既に登録済みです` : error.message, 'error'); return; }
+  document.getElementById('discNewCode').value = '';
+  document.getElementById('discNewName').value = '';
+  discShowStoreMsg(`「${name}」を追加しました`, 'success');
+  discLoadStores();
+}
+
+// --- 経理：店舗編集（インライン） ---
+function discEditStore(id) {
+  const s = discStores.find(x => x.id === id);
+  if (!s) return;
+  const row = document.getElementById('discRow_' + id);
+  if (!row) return;
+  row.innerHTML = `<td><input class="disc-add-input" id="discEC_${id}" value="${s.store_code}" style="width:80px"></td><td><input class="disc-add-input" id="discEN_${id}" value="${s.store_name}" style="width:100%"></td><td><button class="disc-small-btn disc-save-btn" onclick="discSaveStore('${id}')">💾</button></td>`;
+}
+async function discSaveStore(id) {
+  const code = document.getElementById('discEC_' + id).value.trim();
+  const name = document.getElementById('discEN_' + id).value.trim();
+  if (!code || !name) return;
+  const { error } = await db.from('discrepancy_stores').update({ store_code: code, store_name: name, updated_at: new Date().toISOString() }).eq('id', id);
+  if (error) { discShowStoreMsg(error.message, 'error'); return; }
+  discShowStoreMsg('更新しました', 'success');
+  discLoadStores();
+}
+
+// --- 経理：店舗削除 ---
+async function discDelStore(id, name) {
+  if (!confirm(`「${name}」を削除しますか？`)) return;
+  const { error } = await db.from('discrepancy_stores').delete().eq('id', id);
+  if (error) { discShowStoreMsg(error.message, 'error'); return; }
+  discShowStoreMsg(`「${name}」を削除しました`, 'success');
+  discLoadStores();
+}
+
+function discShowStoreMsg(text, type) {
+  document.getElementById('discStoreMsg').innerHTML = `<div class="disc-msg ${type}">${text}</div>`;
+  setTimeout(() => { document.getElementById('discStoreMsg').innerHTML = ''; }, 3000);
+}
+
+// --- 経理：CSV出力 ---
+async function discExportCSV() {
+  const start = document.getElementById('discExStartDate').value;
+  const end = document.getElementById('discExEndDate').value;
+  if (!start || !end) { document.getElementById('discExportMsg').innerHTML = '<div class="disc-msg error">開始日と終了日を入力してください</div>'; return; }
+  document.getElementById('discExportBtn').disabled = true;
+  const { data, error } = await db.from('discrepancy_reports').select('*').gte('business_date', start).lte('business_date', end).order('business_date').order('store_code');
+  document.getElementById('discExportBtn').disabled = false;
+  if (error) { document.getElementById('discExportMsg').innerHTML = `<div class="disc-msg error">${error.message}</div>`; return; }
+  if (!data || data.length === 0) { document.getElementById('discExportMsg').innerHTML = '<div class="disc-msg error">指定期間にデータがありません</div>'; return; }
+  const headers = ['店舗コード','店舗名','報告者','営業日','違算金額','過不足','違算理由','報告日時'];
+  const rows = data.map(r => [
+    r.store_code, r.store_name, r.reporter, r.business_date, r.amount,
+    r.amount > 0 ? `${r.amount}円過剰` : r.amount < 0 ? `${Math.abs(r.amount)}円不足` : '0円',
+    `"${(r.reason||'').replace(/"/g,'""')}"`,
+    r.created_at ? new Date(r.created_at).toLocaleString('ja-JP') : ''
+  ]);
+  const csv = '\uFEFF' + headers.join(',') + '\n' + rows.map(r => r.join(',')).join('\n');
+  const blob = new Blob([csv], { type: 'text/csv;charset=utf-8' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a'); a.href = url; a.download = `違算報告_${start}_${end}.csv`;
+  document.body.appendChild(a); a.click(); document.body.removeChild(a); URL.revokeObjectURL(url);
+  document.getElementById('discExportMsg').innerHTML = `<div class="disc-msg success">${data.length}件をCSV出力しました</div>`;
+}
+
+// --- 店舗：コード検索 ---
+async function discSearchStore() {
+  const code = document.getElementById('discCodeInput').value.trim();
+  if (!code) { document.getElementById('discCodeError').innerHTML = '<div class="disc-msg error">店舗コードを入力してください</div>'; return; }
+  const { data, error } = await db.from('discrepancy_stores').select('*').eq('store_code', code).limit(1);
+  if (error || !data || data.length === 0) {
+    document.getElementById('discCodeError').innerHTML = '<div class="disc-msg error">該当する店舗が見つかりません</div>';
+    return;
+  }
+  discSelectedStore = data[0];
+  discShowStep('discReportForm');
+  document.getElementById('discStoreBanner').innerHTML = `<span class="disc-store-code">${discSelectedStore.store_code}</span><span class="disc-store-name">${discSelectedStore.store_name}</span>`;
+  document.getElementById('discReporter').value = '';
+  document.getElementById('discBizDate').value = getBusinessDate();
+  document.getElementById('discAmount').value = '';
+  document.getElementById('discAmountDisplay').innerHTML = '';
+  document.getElementById('discReason').value = '';
+  document.getElementById('discFormError').innerHTML = '';
+}
+
+// --- 店舗：金額変更 ---
+function discAmountChanged() {
+  const el = document.getElementById('discAmount');
+  let v = el.value;
+  if (v !== '' && v !== '-' && !/^-?\d+$/.test(v)) {
+    el.value = v.replace(/[^0-9\-]/g, '').replace(/(?!^)-/g, '');
+    v = el.value;
+  }
+  const num = parseInt(v, 10);
+  const disp = document.getElementById('discAmountDisplay');
+  if (isNaN(num) || num === 0) { disp.innerHTML = ''; return; }
+  if (num > 0) disp.innerHTML = `<div class="disc-amount-display disc-amount-excess">${num.toLocaleString()}円過剰</div>`;
+  else disp.innerHTML = `<div class="disc-amount-display disc-amount-shortage">${Math.abs(num).toLocaleString()}円不足</div>`;
+}
+
+// --- 店舗：報告確定 ---
+async function discSubmitReport() {
+  const reporter = document.getElementById('discReporter').value.trim();
+  const bizDate = document.getElementById('discBizDate').value;
+  const amountStr = document.getElementById('discAmount').value;
+  const reason = document.getElementById('discReason').value.trim();
+  if (!reporter) { document.getElementById('discFormError').innerHTML = '<div class="disc-msg error">報告者を入力してください</div>'; return; }
+  if (!bizDate) { document.getElementById('discFormError').innerHTML = '<div class="disc-msg error">営業日を入力してください</div>'; return; }
+  if (!amountStr || amountStr === '-') { document.getElementById('discFormError').innerHTML = '<div class="disc-msg error">違算金額を入力してください</div>'; return; }
+  if (!reason) { document.getElementById('discFormError').innerHTML = '<div class="disc-msg error">違算理由を入力してください</div>'; return; }
+  const amount = parseInt(amountStr, 10);
+  document.getElementById('discSubmitBtn').disabled = true;
+  const { error } = await db.from('discrepancy_reports').insert({
+    store_code: discSelectedStore.store_code,
+    store_name: discSelectedStore.store_name,
+    reporter, business_date: bizDate, amount, reason
+  });
+  document.getElementById('discSubmitBtn').disabled = false;
+  if (error) { document.getElementById('discFormError').innerHTML = `<div class="disc-msg error">${error.message}</div>`; return; }
+  const amtText = amount > 0 ? `${amount.toLocaleString()}円過剰` : `${Math.abs(amount).toLocaleString()}円不足`;
+  document.getElementById('discCompleteDetails').innerHTML = `<p><strong>店舗:</strong> ${discSelectedStore.store_name}（${discSelectedStore.store_code}）</p><p><strong>報告者:</strong> ${reporter}</p><p><strong>営業日:</strong> ${bizDate}</p><p><strong>違算金額:</strong> ${amtText}</p>`;
+  discShowStep('discComplete');
+}
+function discCancelReport() {
+  if (confirm('入力内容を破棄しますか？')) discShowStore();
+}
+
+// --- 初期データ一括登録 ---
+const DISC_INITIAL_STORES = [
+  ['720101','101一宮'],['720102','102港'],['720103','103小牧'],['720104','104高辻'],['720105','105藤が'],
+  ['720108','108緑'],['720109','109高畑'],['720110','110春日'],['720111','111植田'],['720112','112大森'],
+  ['720113','113牛川'],['720114','114可児'],['720115','115豊ｲﾝﾀ'],['720116','116河渡'],['720117','117大垣'],
+  ['720118','118神ﾉ輪'],['720119','119半田'],['720120','120長良'],['720121','121岡南'],['720122','122大樹'],
+  ['720125','125豊山'],['720130','130枚国'],['720132','132甚目'],['720135','135多治'],['720136','136岐南'],
+  ['720137','137松原'],['720138','138宝塚'],['720301','301MSｲﾁﾉ'],['720305','305MSﾐﾖｼ'],['720306','306MSｶｽｶﾞｲ'],
+  ['720307','307MSﾊﾝﾀﾞ'],['720308','308MSｷﾞﾌｷﾀｶﾀ'],['720501','501RK茨木'],['720502','502RK東大阪'],
+  ['720503','503RK長吉長原'],['720504','504RK寝屋川'],['720505','505RK三田'],['720506','506RK千里丘'],
+  ['720507','507RK奈良押熊'],['720508','508RK松原'],['720601','601WN'],['720604','604KOV'],['720605','605KOV2nd'],
+  ['720606','606KOV3rd'],['720711','おたから本巣'],['720712','おたから浜岡'],['720713','おたから大須賀'],
+  ['720714','おたから湖西'],['720715','おたから牛川'],['720717','おたから土岐'],['720901','901KK西春'],
+  ['720902','902KK桑名'],['720903','903KK西岐阜'],['720904','904KK四條畷'],['720905','905KK蟹江'],
+  ['720906','906KK春日井'],['720907','907KK大樹寺'],['720908','908KK久世'],['720909','909KK津守'],
+  ['720910','910KK堺浜寺'],['720911','911KK大垣'],['720912','912KK鈴鹿'],['720914','914KK豊川'],
+  ['720915','915KK多治見'],['720916','916KK京都八幡'],['720918','918KK長久手'],['720919','919KK東大阪'],
+  ['720920','920KK天理'],['720921','921KK守山'],['720922','922KK鞍月'],['720923','923KK白山'],
+  ['720924','924KK大口'],['720925','925KK大津'],['720926','926KK高岡'],['720927','927KK鳴海'],
+  ['720928','928KK新瑞橋'],['720929','929KK摂津'],['720930','930KK松原天美'],['729101','9101キャリ一宮'],
+  ['729104','9104キャリ高辻'],['729109','9109キャリ高畑'],['729110','9110キャリ春日井'],['729111','9111キャリ植田'],
+  ['729116','9116キャリ河渡'],['729117','9117キャリ大垣'],['729118','9118キャリ神ノ輪'],['729120','9120キャリ長良'],
+  ['729122','9122キャリ大樹'],['729125','9125キャリ豊山'],['729130','9130キャリ枚国'],['729137','9137キャリ松原'],
+  ['729138','9138キャリ宝塚'],['729506','9506キャリ千里丘'],['729601','9601キャリWHYNOT'],
+  ['739999','コモンテスト店'],['999999','999EC取込']
+];
+
+async function discBulkImport() {
+  if (!confirm(`${DISC_INITIAL_STORES.length}件の店舗マスタを一括登録しますか？`)) return;
+  const rows = DISC_INITIAL_STORES.map(([c, n]) => ({ store_code: c, store_name: n }));
+  const { data, error } = await db.from('discrepancy_stores').upsert(rows, { onConflict: 'store_code' });
+  const resEl = document.getElementById('discInitResult');
+  if (error) { resEl.innerHTML = `<div class="disc-msg error">${error.message}</div>`; return; }
+  resEl.innerHTML = `<div class="disc-msg success">✅ ${DISC_INITIAL_STORES.length}件を登録しました</div>`;
+  discLoadStores();
+}
 
 // ===========================================
 // 起動
