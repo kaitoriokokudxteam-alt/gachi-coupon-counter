@@ -124,9 +124,15 @@
     box-shadow: 0 0 10px rgba(81, 207, 102, 0.3);
   }
   .staff-display {
-    font-size: 12px;
+    font-size: 17px;
     color: #51cf66;
     margin-top: 2px;
+    cursor: pointer;
+    transition: color 0.15s;
+  }
+  .staff-display:hover {
+    color: #69db7c;
+    text-shadow: 0 0 6px rgba(81, 207, 102, 0.4);
   }
 
   /* ===== メインコンテンツ ===== */
@@ -207,6 +213,13 @@
   .btn-group {
     display: flex;
     gap: 12px;
+  }
+  .branch-total {
+    font-size: 11px;
+    color: #c8a84e;
+    margin-top: 6px;
+    text-align: center;
+    opacity: 0.85;
   }
   .btn {
     border: 2px solid #c8a84e;
@@ -844,7 +857,7 @@
         <span style="font-size:11px">&#9660;</span>
       </div>
       <div class="business-date" id="businessDateDisplay">---</div>
-      <div class="staff-display" id="staffDisplay"></div>
+      <div class="staff-display" id="staffDisplay" onclick="showStaffSelectModal()" title="クリックで担当者変更"></div>
     </div>
     <button class="staff-btn" id="staffSelectBtn" onclick="showStaffSelectModal()" style="display:none">担当者</button>
   </div>
@@ -1377,10 +1390,13 @@ async function showStaffSelectModal() {
 // ===========================================
 // カウンターデータ読み込み
 // ===========================================
+let branchTotals = {};
+
 async function loadCounters() {
   const businessDate = getBusinessDate();
 
   try {
+    // 個人カウント取得
     let query = db
       .from('counts')
       .select('*')
@@ -1394,19 +1410,36 @@ async function loadCounters() {
       query = query.is('staff_id', null);
     }
 
-    const { data, error } = await query;
-    if (error) throw error;
+    // 枝番合計取得（全担当者の合計）
+    const totalQuery = db
+      .from('counts')
+      .select('category, count')
+      .eq('store_id', currentStore.id)
+      .eq('branch_number', currentBranch)
+      .eq('business_date', businessDate);
+
+    const [result, totalResult] = await Promise.all([query, totalQuery]);
+    if (result.error) throw result.error;
+    if (totalResult.error) throw totalResult.error;
 
     counters = {};
+    branchTotals = {};
     CATEGORIES.forEach(cat => {
       cat.items.forEach(item => {
         counters[item.key] = 0;
+        branchTotals[item.key] = 0;
       });
     });
 
-    if (data) {
-      data.forEach(row => {
+    if (result.data) {
+      result.data.forEach(row => {
         counters[row.category] = row.count;
+      });
+    }
+
+    if (totalResult.data) {
+      totalResult.data.forEach(row => {
+        branchTotals[row.category] = (branchTotals[row.category] || 0) + row.count;
       });
     }
 
@@ -1432,8 +1465,12 @@ function renderCounters() {
         </div>
         <div class="pair-body">`;
 
+    const branchChar = BRANCH_CHARS.find(b => b.num === currentBranch);
+    const branchName = branchChar ? branchChar.name : `#${currentBranch}`;
+
     cat.items.forEach(item => {
       const isReturn = item.direction === 'in';
+      const total = branchTotals[item.key] || 0;
       html += `
           <div class="counter-card ${isReturn ? 'return-card' : ''}">
             <div class="card-label">${item.label}</div>
@@ -1442,6 +1479,7 @@ function renderCounters() {
               <button class="btn btn-minus" onclick="updateCount('${item.key}', -1)" title="1減らす">−</button>
               <button class="btn btn-plus" onclick="updateCount('${item.key}', 1)" title="1増やす">＋</button>
             </div>
+            <div class="branch-total" id="total-${item.key}">${branchName}合計：${total}</div>
           </div>`;
     });
 
@@ -1469,12 +1507,20 @@ async function updateCount(category, delta) {
   if (newCount < 0) return;
 
   counters[category] = newCount;
+  branchTotals[category] = (branchTotals[category] || 0) + delta;
   const el = document.getElementById(`count-${category}`);
   if (el) {
     el.textContent = newCount;
     el.classList.remove('count-pop');
     void el.offsetWidth;
     el.classList.add('count-pop');
+  }
+  // 枝番合計の表示更新
+  const totalEl = document.getElementById(`total-${category}`);
+  if (totalEl) {
+    const branchChar = BRANCH_CHARS.find(b => b.num === currentBranch);
+    const branchName = branchChar ? branchChar.name : `#${currentBranch}`;
+    totalEl.textContent = `${branchName}合計：${branchTotals[category]}`;
   }
 
   // 画面エフェクト

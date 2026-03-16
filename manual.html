@@ -351,12 +351,13 @@
       <li><a href="#sec-spell"><span class="toc-num">01</span> 復活の呪文（ログイン）</a></li>
       <li><a href="#sec-store"><span class="toc-num">02</span> 店舗をえらぶ</a></li>
       <li><a href="#sec-branch"><span class="toc-num">03</span> キャラクター（枝番）をえらぶ</a></li>
-      <li><a href="#sec-counter"><span class="toc-num">04</span> カウンターのつかいかた</a></li>
-      <li><a href="#sec-battle"><span class="toc-num">05</span> バトルエフェクト</a></li>
-      <li><a href="#sec-levelup"><span class="toc-num">06</span> レベルアップ</a></li>
-      <li><a href="#sec-command"><span class="toc-num">07</span> コマンド（集計レポート）</a></li>
-      <li><a href="#sec-daily"><span class="toc-num">08</span> 毎日のながれ</a></li>
-      <li><a href="#sec-trouble"><span class="toc-num">09</span> こまったときは</a></li>
+      <li><a href="#sec-staff"><span class="toc-num">04</span> 担当者をえらぶ・登録する</a></li>
+      <li><a href="#sec-counter"><span class="toc-num">05</span> カウンターのつかいかた</a></li>
+      <li><a href="#sec-battle"><span class="toc-num">06</span> バトルエフェクト</a></li>
+      <li><a href="#sec-levelup"><span class="toc-num">07</span> レベルアップ</a></li>
+      <li><a href="#sec-command"><span class="toc-num">08</span> コマンド（担当者管理・集計レポート）</a></li>
+      <li><a href="#sec-daily"><span class="toc-num">09</span> 毎日のながれ</a></li>
+      <li><a href="#sec-trouble"><span class="toc-num">10</span> こまったときは</a></li>
     </ul>
   </div>
 
@@ -452,7 +453,40 @@
   </div>
 
   <!-- ============================================ -->
-  <!-- 4. カウンターのつかいかた -->
+  <!-- 4. 担当者をえらぶ・登録する -->
+  <!-- ============================================ -->
+  <div class="section" id="sec-staff">
+    <h2><span class="icon">👤</span> 担当者をえらぶ・登録する</h2>
+    <p>メイン画面の右上に <strong>「担当者」</strong> ボタンがあります。タップすると担当者をえらべます。</p>
+    <p>担当者名をタップしても変更できます。</p>
+
+    <h3>担当者を登録するには？</h3>
+    <ol class="steps">
+      <li><strong>「⚔ コマンド」</strong> ボタンをタップ</li>
+      <li><strong>「👤 担当者登録・編集」</strong> をタップ</li>
+      <li><strong>「＋ 追加」</strong> をタップ</li>
+      <li>バーコード番号とニックネームを入力して「とうろく」</li>
+    </ol>
+
+    <div class="tip-box">
+      <p>担当者名は <strong>MOOVには紐づきません</strong> ので、ニックネームでもOKです！<br>
+      自分がわかれば好きな名前をつけてください。</p>
+    </div>
+
+    <h3>担当者ごとにカウントが分かれます</h3>
+    <p>担当者をえらぶと、その人専用のカウントが表示されます。「（担当者なし）」と担当者Aのカウントは別々に記録されます。</p>
+
+    <h3>キャラクター合計も見えます</h3>
+    <p>各カウンターの下に <strong>「勇者合計：○○」</strong> のように、そのキャラクター（枝番）の全担当者の合計が表示されます。<br>
+    だれがどれだけ配ったかは個別カウントで、端末全体でいくつ配ったかは合計でわかります！</p>
+
+    <div class="warning-box">
+      <p>担当者は <strong>店舗ごと</strong> に登録されます。べつの店舗では表示されません。</p>
+    </div>
+  </div>
+
+  <!-- ============================================ -->
+  <!-- 5. カウンターのつかいかた -->
   <!-- ============================================ -->
   <div class="section" id="sec-counter">
     <h2><span class="icon">🎮</span> カウンターのつかいかた</h2>
@@ -537,19 +571,28 @@
   <!-- 7. コマンド（集計レポート） -->
   <!-- ============================================ -->
   <div class="section" id="sec-command">
-    <h2><span class="icon">📊</span> コマンド（集計レポート）</h2>
-    <p>画面上部の <strong>「⚔ コマンド」</strong> ボタンをタップすると、集計レポートを見ることができます。</p>
+    <h2><span class="icon">📊</span> コマンド（担当者管理・集計レポート）</h2>
+    <p>画面上部の <strong>「⚔ コマンド」</strong> ボタンをタップすると、2つのメニューが表示されます。</p>
 
-    <h3>レポートの出しかた</h3>
+    <h3>👤 担当者登録・編集</h3>
+    <p>店舗に紐づいた担当者の登録・編集・削除ができます。</p>
+    <ul style="margin: 8px 0 8px 20px; font-size: 14px;">
+      <li><strong>登録</strong>：バーコード番号＋ニックネームを入力</li>
+      <li><strong>編集</strong>：一覧から「編集」ボタンでニックネームを変更</li>
+      <li><strong>削除</strong>：一覧から「削除」ボタンで削除</li>
+    </ul>
+
+    <h3>📊 集計レポート</h3>
     <ol class="steps">
       <li><strong>はじまりは？</strong> ── 集計したい期間の開始日を入力</li>
       <li><strong>おわりは？</strong> ── 集計したい期間の終了日を入力</li>
       <li><strong>どこの店舗？</strong> ──「全店」か「店舗をえらぶ」で対象の店舗を選択</li>
       <li><strong>形式をえらぶ</strong> ── カレンダー形式 or レコード形式</li>
+      <li><strong>担当者べつ？</strong> ──「担当者べつで合計」か「店舗だけで合計」をえらぶ</li>
     </ol>
 
     <h3>📅 カレンダー形式</h3>
-    <p>行に店舗名、列に日付が並ぶ表です。各セルにカテゴリ別の数字が表示されます。日付が多い場合は横スクロールできます。</p>
+    <p>行に店舗名（担当者別の場合は「店舗名 / 担当者名」）、列に日付が並ぶ表です。日付が多い場合は横スクロールできます。</p>
 
     <h3>📋 レコード形式</h3>
     <p>店舗名・日付・カテゴリ・カウント数が1行ずつ並ぶリストです。データが多い場合は縦スクロールできます。</p>
@@ -572,6 +615,7 @@
       <li><strong>朝7:00</strong> に日付が自動で切り替わり、カウンターが 0 にリセットされます</li>
       <li>アプリを開いて、呪文を入力（初回のみ）</li>
       <li>自分の店舗 → 自分のキャラクター（枝番）を確認</li>
+      <li>右上の <strong>「担当者」</strong> ボタンから自分の名前をえらぶ</li>
       <li>あとはお客様が来るたびに ＋ をポチポチ！</li>
       <li>閉店後はそのままでOK。データは自動保存されています</li>
     </ol>
