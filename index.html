@@ -846,9 +846,10 @@
     <span class="header-icon">🔢</span>
     <div>
       <div class="header-title">ガチクーポンカウンター</div>
-      <div class="header-subtitle">Gachi Coupon Counter for MOOV</div>
+      <div class="header-subtitle">制作：業務効率課</div>
     </div>
     <button class="cmd-btn" onclick="openCommand()">⚔ コマンド</button>
+    <a href="manual.html" target="_blank" class="cmd-btn" style="text-decoration:none;display:inline-block;">📖 攻略本</a>
   </div>
   <div class="header-right">
     <div>
@@ -1493,7 +1494,7 @@ function renderCounters() {
   // フッター
   html += `
     <div class="footer">
-      🔢 ガチクーポンカウンター v3.0 | 営業日: ${formatDateJP(getBusinessDate())}
+      買取王国大西さとしくん原案：ガチクーポンクエスト２ | 営業日: ${formatDateJP(getBusinessDate())}
     </div>`;
 
   main.innerHTML = html;
