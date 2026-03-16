@@ -85,6 +85,9 @@
   }
   .header-right {
     text-align: right;
+    display: flex;
+    align-items: center;
+    gap: 10px;
   }
   .store-name {
     font-size: 16px;
@@ -100,6 +103,29 @@
   .business-date {
     font-size: 13px;
     color: #8888aa;
+    margin-top: 2px;
+  }
+
+  /* ===== 担当者ボタン ===== */
+  .staff-btn {
+    font-family: 'DotGothic16', sans-serif;
+    font-size: 11px;
+    padding: 4px 10px;
+    border: 2px solid #51cf66;
+    border-radius: 6px;
+    background: linear-gradient(180deg, #1a4a2e, #0d2818);
+    color: #51cf66;
+    cursor: pointer;
+    transition: all 0.12s;
+    white-space: nowrap;
+  }
+  .staff-btn:hover {
+    background: linear-gradient(180deg, #1f5a36, #12331e);
+    box-shadow: 0 0 10px rgba(81, 207, 102, 0.3);
+  }
+  .staff-display {
+    font-size: 12px;
+    color: #51cf66;
     margin-top: 2px;
   }
 
@@ -165,8 +191,6 @@
     align-items: center;
     gap: 6px;
   }
-  .card-label .arrow-out { color: #ff6b6b; }
-  .card-label .arrow-in { color: #51cf66; }
 
   .count-display {
     font-size: 52px;
@@ -221,29 +245,6 @@
   .btn-minus:hover {
     background: linear-gradient(180deg, #5a1f1f, #331515);
     box-shadow: 0 0 12px rgba(255, 107, 107, 0.3);
-  }
-
-  /* ===== 合計バー ===== */
-  .total-bar {
-    padding: 14px 20px;
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 12px;
-    text-align: center;
-    border-top: 2px solid rgba(200, 168, 78, 0.4);
-    margin-top: 4px;
-  }
-  .total-item { padding: 6px; }
-  .total-label {
-    font-size: 11px;
-    color: #8888aa;
-    margin-bottom: 4px;
-  }
-  .total-value {
-    font-size: 20px;
-    font-weight: bold;
-    color: #ffd700;
-    text-shadow: 0 0 8px rgba(255, 215, 0, 0.3);
   }
 
   /* ===== モーダル ===== */
@@ -722,6 +723,89 @@
     margin-top: 12px;
   }
 
+  /* ===== 担当者管理用入力 ===== */
+  .staff-form-input {
+    font-family: 'DotGothic16', sans-serif;
+    font-size: 14px;
+    width: 100%;
+    padding: 10px 14px;
+    border: 2px solid rgba(200, 168, 78, 0.5);
+    border-radius: 6px;
+    background: rgba(0, 0, 0, 0.4);
+    color: #ffd700;
+    outline: none;
+    margin-bottom: 10px;
+  }
+  .staff-form-input:focus { border-color: #ffd700; }
+  .staff-form-input::placeholder { color: #555577; }
+
+  .staff-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 12px 0;
+    font-size: 13px;
+  }
+  .staff-table th {
+    background: rgba(200, 168, 78, 0.15);
+    color: #ffd700;
+    padding: 8px 10px;
+    text-align: left;
+    border-bottom: 2px solid #c8a84e;
+  }
+  .staff-table td {
+    padding: 8px 10px;
+    border-bottom: 1px solid rgba(200, 168, 78, 0.15);
+    color: #e0e0e0;
+  }
+  .staff-table .staff-action-btn {
+    font-family: 'DotGothic16', sans-serif;
+    font-size: 11px;
+    padding: 3px 10px;
+    border: 1px solid #c8a84e;
+    border-radius: 4px;
+    background: rgba(255,255,255,0.05);
+    color: #ffd700;
+    cursor: pointer;
+    margin-right: 4px;
+  }
+  .staff-table .staff-action-btn.del {
+    border-color: #ff6b6b;
+    color: #ff6b6b;
+  }
+  .staff-table .staff-action-btn:hover { opacity: 0.8; }
+
+  /* ===== 担当者ラジオリスト ===== */
+  .staff-radio-list {
+    list-style: none;
+    max-height: 300px;
+    overflow-y: auto;
+    text-align: left;
+  }
+  .staff-radio-list li {
+    padding: 10px 16px;
+    border: 2px solid rgba(200, 168, 78, 0.3);
+    border-radius: 8px;
+    margin-bottom: 6px;
+    cursor: pointer;
+    font-size: 14px;
+    color: #e0e0e0;
+    transition: all 0.12s;
+    background: rgba(255, 255, 255, 0.03);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .staff-radio-list li:hover {
+    border-color: #51cf66;
+    background: rgba(81, 207, 102, 0.08);
+  }
+  .staff-radio-list li.selected {
+    border-color: #51cf66;
+    background: rgba(81, 207, 102, 0.15);
+    color: #51cf66;
+  }
+  .staff-radio-list input[type="radio"] { accent-color: #51cf66; }
+
   /* ===== スクロールバーRPG風 ===== */
   ::-webkit-scrollbar { width: 8px; }
   ::-webkit-scrollbar-track { background: rgba(10, 10, 50, 0.5); }
@@ -734,10 +818,9 @@
   /* ===== レスポンシブ ===== */
   @media (max-width: 600px) {
     .header { flex-direction: column; gap: 8px; text-align: center; }
-    .header-right { text-align: center; }
+    .header-right { text-align: center; justify-content: center; }
     .count-display { font-size: 38px; }
     .btn { width: 48px; height: 48px; font-size: 20px; }
-    .total-bar { grid-template-columns: 1fr; }
     .branch-grid { grid-template-columns: repeat(5, 1fr); }
   }
 </style>
@@ -755,11 +838,15 @@
     <button class="cmd-btn" onclick="openCommand()">⚔ コマンド</button>
   </div>
   <div class="header-right">
-    <div class="store-name" id="storeNameDisplay" onclick="showStoreModal()" title="クリックで店舗変更">
-      <span id="storeNameText">---</span>
-      <span style="font-size:11px">&#9660;</span>
+    <div>
+      <div class="store-name" id="storeNameDisplay" onclick="showStoreModal()" title="クリックで店舗変更">
+        <span id="storeNameText">---</span>
+        <span style="font-size:11px">&#9660;</span>
+      </div>
+      <div class="business-date" id="businessDateDisplay">---</div>
+      <div class="staff-display" id="staffDisplay"></div>
     </div>
-    <div class="business-date" id="businessDateDisplay">---</div>
+    <button class="staff-btn" id="staffSelectBtn" onclick="showStaffSelectModal()" style="display:none">担当者</button>
   </div>
 </div>
 
@@ -819,12 +906,79 @@
   </div>
 </div>
 
+<!-- ===== 担当者選択モーダル ===== -->
+<div class="modal-overlay hidden" id="staffSelectModal">
+  <div class="modal">
+    <div class="modal-icon">👤</div>
+    <h2>担当者をえらんでください</h2>
+    <p>カウントは担当者に紐づいて記録されます</p>
+    <ul class="staff-radio-list" id="staffRadioList"></ul>
+    <div class="cmd-nav" style="margin-top:12px">
+      <button class="cmd-nav-btn back" onclick="document.getElementById('staffSelectModal').classList.add('hidden')">とじる</button>
+    </div>
+  </div>
+</div>
+
 <!-- ===== コマンドモーダル ===== -->
 <div class="modal-overlay hidden" id="cmdModal">
   <div class="cmd-modal">
+    <!-- Step0: コマンドメニュー -->
+    <div class="cmd-step active" id="cmdStep0">
+      <h2>⚔ コマンド</h2>
+      <div class="cmd-format-btns" style="flex-direction:column;align-items:center">
+        <button class="cmd-format-btn" onclick="cmdGoStep('staff-list')" style="width:260px">👤 担当者登録・編集</button>
+        <button class="cmd-format-btn" onclick="cmdGoStep(1)" style="width:260px">📊 集計レポート</button>
+      </div>
+      <div class="cmd-nav">
+        <button class="cmd-nav-btn back" onclick="closeCommand()">とじる</button>
+      </div>
+    </div>
+
+    <!-- ===== 担当者管理 ===== -->
+    <!-- Staff List -->
+    <div class="cmd-step" id="cmdStepStaffList">
+      <h2>👤 担当者一覧</h2>
+      <p style="color:#8888aa;font-size:12px;margin-bottom:12px" id="staffMgmtStoreName"></p>
+      <div id="staffListArea"></div>
+      <div class="cmd-nav">
+        <button class="cmd-nav-btn back" onclick="cmdGoStep(0)">もどる</button>
+        <button class="cmd-nav-btn" onclick="cmdGoStep('staff-add')">＋ 追加</button>
+      </div>
+    </div>
+    <!-- Staff Add -->
+    <div class="cmd-step" id="cmdStepStaffAdd">
+      <h2>👤 担当者登録</h2>
+      <div style="text-align:left;max-width:300px;margin:0 auto">
+        <label style="color:#e0e0e0;font-size:13px">バーコードを入力してください</label>
+        <input type="text" id="staffBarcodeInput" class="staff-form-input" placeholder="バーコード番号">
+        <label style="color:#e0e0e0;font-size:13px">担当者名（ニックネーム）をいれてください</label>
+        <input type="text" id="staffNicknameInput" class="staff-form-input" placeholder="ニックネーム">
+      </div>
+      <div class="cmd-nav">
+        <button class="cmd-nav-btn back" onclick="cmdGoStep('staff-list')">もどる</button>
+        <button class="cmd-nav-btn" onclick="staffSave()">とうろく</button>
+      </div>
+    </div>
+    <!-- Staff Edit -->
+    <div class="cmd-step" id="cmdStepStaffEdit">
+      <h2>👤 担当者編集</h2>
+      <div style="text-align:left;max-width:300px;margin:0 auto">
+        <label style="color:#e0e0e0;font-size:13px">バーコード</label>
+        <input type="text" id="staffEditBarcodeInput" class="staff-form-input">
+        <label style="color:#e0e0e0;font-size:13px">担当者名（ニックネーム）</label>
+        <input type="text" id="staffEditNicknameInput" class="staff-form-input">
+        <input type="hidden" id="staffEditId">
+      </div>
+      <div class="cmd-nav">
+        <button class="cmd-nav-btn back" onclick="cmdGoStep('staff-list')">もどる</button>
+        <button class="cmd-nav-btn" onclick="staffUpdate()">ほぞん</button>
+      </div>
+    </div>
+
+    <!-- ===== 集計レポート ===== -->
     <!-- Step1: 期間 -->
-    <div class="cmd-step active" id="cmdStep1">
-      <h2>⚔ コマンド - 集計レポート</h2>
+    <div class="cmd-step" id="cmdStep1">
+      <h2>📊 集計レポート</h2>
       <div class="cmd-date-group">
         <div class="cmd-date-row">
           <label>はじまりは？</label>
@@ -836,7 +990,7 @@
         </div>
       </div>
       <div class="cmd-nav">
-        <button class="cmd-nav-btn back" onclick="closeCommand()">とじる</button>
+        <button class="cmd-nav-btn back" onclick="cmdGoStep(0)">もどる</button>
         <button class="cmd-nav-btn" onclick="cmdGoStep(2)">つぎへ</button>
       </div>
     </div>
@@ -857,11 +1011,33 @@
     <div class="cmd-step" id="cmdStep3">
       <h2>どのけいしきで みる？</h2>
       <div class="cmd-format-btns">
-        <button class="cmd-format-btn" onclick="cmdExecute('calendar')">📅 カレンダー形式</button>
-        <button class="cmd-format-btn" onclick="cmdExecute('record')">📋 レコード形式</button>
+        <button class="cmd-format-btn" onclick="cmdGoStep('staff-option-cal')">📅 カレンダー形式</button>
+        <button class="cmd-format-btn" onclick="cmdGoStep('staff-option-rec')">📋 レコード形式</button>
       </div>
       <div class="cmd-nav">
         <button class="cmd-nav-btn back" onclick="cmdGoStep(2)">もどる</button>
+      </div>
+    </div>
+    <!-- Step3.5: 担当者含むかどうか（カレンダー） -->
+    <div class="cmd-step" id="cmdStepStaffOptionCal">
+      <h2>担当者べつに ひょうじする？</h2>
+      <div class="cmd-format-btns" style="flex-direction:column;align-items:center">
+        <button class="cmd-format-btn" style="width:260px" onclick="cmdExecute('calendar', true)">👤 担当者べつで合計</button>
+        <button class="cmd-format-btn" style="width:260px" onclick="cmdExecute('calendar', false)">🏪 店舗だけで合計</button>
+      </div>
+      <div class="cmd-nav">
+        <button class="cmd-nav-btn back" onclick="cmdGoStep(3)">もどる</button>
+      </div>
+    </div>
+    <!-- Step3.5: 担当者含むかどうか（レコード） -->
+    <div class="cmd-step" id="cmdStepStaffOptionRec">
+      <h2>担当者べつに ひょうじする？</h2>
+      <div class="cmd-format-btns" style="flex-direction:column;align-items:center">
+        <button class="cmd-format-btn" style="width:260px" onclick="cmdExecute('record', true)">👤 担当者べつで合計</button>
+        <button class="cmd-format-btn" style="width:260px" onclick="cmdExecute('record', false)">🏪 店舗だけで合計</button>
+      </div>
+      <div class="cmd-nav">
+        <button class="cmd-nav-btn back" onclick="cmdGoStep(3)">もどる</button>
       </div>
     </div>
     <!-- Step4: 結果 -->
@@ -936,6 +1112,7 @@ const BRANCH_CHARS = [
 let db = null;
 let currentStore = null;
 let currentBranch = 1;
+let currentStaff = null; // { id, barcode, nickname }
 let counters = {};
 let isConfigured = false;
 
@@ -994,6 +1171,7 @@ async function proceedAfterSpell() {
     currentStore = { id: savedStoreId, name: savedStoreName };
     currentBranch = parseInt(savedBranch);
     updateStoreDisplay();
+    await loadStaffForStore();
     await loadCounters();
   } else {
     await showStoreModal();
@@ -1067,6 +1245,9 @@ function selectStore(store) {
   localStorage.setItem('gachi_counter_store_id', store.id);
   localStorage.setItem('gachi_counter_store_name', store.name);
   document.getElementById('storeModal').classList.add('hidden');
+  currentStaff = null;
+  localStorage.removeItem('gachi_counter_staff_id');
+  localStorage.removeItem('gachi_counter_staff_nickname');
   showBranchModal();
 }
 
@@ -1100,6 +1281,17 @@ function updateStoreDisplay() {
   img.alt = '';
   img.className = 'header-branch-img';
   container.appendChild(img);
+
+  // 担当者表示
+  const staffDisp = document.getElementById('staffDisplay');
+  if (currentStaff) {
+    staffDisp.textContent = `👤 ${currentStaff.nickname}`;
+  } else {
+    staffDisp.textContent = '';
+  }
+
+  // 担当者ボタン表示
+  document.getElementById('staffSelectBtn').style.display = currentStore ? '' : 'none';
 }
 
 function selectBranch(num) {
@@ -1107,7 +1299,79 @@ function selectBranch(num) {
   localStorage.setItem('gachi_counter_branch', num);
   updateStoreDisplay();
   document.getElementById('branchModal').classList.add('hidden');
-  loadCounters();
+  loadStaffForStore().then(() => loadCounters());
+}
+
+// ===========================================
+// 担当者管理
+// ===========================================
+async function loadStaffForStore() {
+  if (!currentStore || !db) return;
+
+  // Restore saved staff
+  const savedStaffId = localStorage.getItem('gachi_counter_staff_id');
+  const savedStaffNickname = localStorage.getItem('gachi_counter_staff_nickname');
+  if (savedStaffId && savedStaffNickname) {
+    currentStaff = { id: savedStaffId, nickname: savedStaffNickname };
+    updateStoreDisplay();
+  }
+}
+
+async function showStaffSelectModal() {
+  if (!currentStore || !db) return;
+
+  const modal = document.getElementById('staffSelectModal');
+  const list = document.getElementById('staffRadioList');
+  list.innerHTML = '<li style="color:#555577;cursor:default">読み込み中...</li>';
+  modal.classList.remove('hidden');
+
+  try {
+    const { data, error } = await db
+      .from('staff')
+      .select('*')
+      .eq('store_id', currentStore.id)
+      .order('nickname');
+    if (error) throw error;
+
+    if (!data || data.length === 0) {
+      list.innerHTML = '<li style="color:#555577;cursor:default">担当者が登録されていません。コマンドから登録してください。</li>';
+      return;
+    }
+
+    list.innerHTML = '';
+
+    // 「担当者なし」オプション
+    const noneLi = document.createElement('li');
+    noneLi.className = !currentStaff ? 'selected' : '';
+    noneLi.innerHTML = `<input type="radio" name="staffSelect" ${!currentStaff ? 'checked' : ''}> <span>（担当者なし）</span>`;
+    noneLi.onclick = () => {
+      currentStaff = null;
+      localStorage.removeItem('gachi_counter_staff_id');
+      localStorage.removeItem('gachi_counter_staff_nickname');
+      updateStoreDisplay();
+      modal.classList.add('hidden');
+      loadCounters();
+    };
+    list.appendChild(noneLi);
+
+    data.forEach(staff => {
+      const li = document.createElement('li');
+      const isSelected = currentStaff && currentStaff.id === staff.id;
+      li.className = isSelected ? 'selected' : '';
+      li.innerHTML = `<input type="radio" name="staffSelect" ${isSelected ? 'checked' : ''}> <span>${staff.nickname}</span> <span style="color:#555577;font-size:11px">${staff.barcode}</span>`;
+      li.onclick = () => {
+        currentStaff = { id: staff.id, nickname: staff.nickname };
+        localStorage.setItem('gachi_counter_staff_id', staff.id);
+        localStorage.setItem('gachi_counter_staff_nickname', staff.nickname);
+        updateStoreDisplay();
+        modal.classList.add('hidden');
+        loadCounters();
+      };
+      list.appendChild(li);
+    });
+  } catch (e) {
+    showError('担当者の取得に失敗: ' + e.message);
+  }
 }
 
 // ===========================================
@@ -1117,13 +1381,20 @@ async function loadCounters() {
   const businessDate = getBusinessDate();
 
   try {
-    const { data, error } = await db
+    let query = db
       .from('counts')
       .select('*')
       .eq('store_id', currentStore.id)
       .eq('branch_number', currentBranch)
       .eq('business_date', businessDate);
 
+    if (currentStaff) {
+      query = query.eq('staff_id', currentStaff.id);
+    } else {
+      query = query.is('staff_id', null);
+    }
+
+    const { data, error } = await query;
     if (error) throw error;
 
     counters = {};
@@ -1179,13 +1450,12 @@ function renderCounters() {
       </div>`;
   });
 
-
   html += '</div>'; // rpg-window
 
   // フッター
   html += `
     <div class="footer">
-      🔢 ガチクーポンカウンター v2.0 | 営業日: ${formatDateJP(getBusinessDate())}
+      🔢 ガチクーポンカウンター v3.0 | 営業日: ${formatDateJP(getBusinessDate())}
     </div>`;
 
   main.innerHTML = html;
@@ -1210,13 +1480,11 @@ async function updateCount(category, delta) {
   // 画面エフェクト
   const body = document.body;
   if (delta < 0) {
-    // 被ダメージ: 赤フラッシュ + 振動
     body.classList.remove('damage-flash', 'attack-shake');
     void body.offsetWidth;
     body.classList.add('damage-flash');
     setTimeout(() => body.classList.remove('damage-flash'), 400);
   } else {
-    // 攻撃: 振動のみ
     body.classList.remove('damage-flash', 'attack-shake');
     void body.offsetWidth;
     body.classList.add('attack-shake');
@@ -1233,40 +1501,52 @@ async function updateCount(category, delta) {
     }
   }
 
-  updateTotals();
-
   const businessDate = getBusinessDate();
   try {
-    const { error } = await db
-      .from('counts')
-      .upsert({
-        store_id: currentStore.id,
-        branch_number: currentBranch,
-        business_date: businessDate,
-        category: category,
-        count: newCount,
-      }, {
-        onConflict: 'store_id,branch_number,business_date,category'
-      });
+    const staffId = currentStaff ? currentStaff.id : null;
 
-    if (error) throw error;
+    // 既存レコード検索
+    let findQuery = db
+      .from('counts')
+      .select('id, count')
+      .eq('store_id', currentStore.id)
+      .eq('branch_number', currentBranch)
+      .eq('business_date', businessDate)
+      .eq('category', category);
+
+    if (staffId) {
+      findQuery = findQuery.eq('staff_id', staffId);
+    } else {
+      findQuery = findQuery.is('staff_id', null);
+    }
+
+    const { data: existing } = await findQuery.maybeSingle();
+
+    if (existing) {
+      const { error } = await db
+        .from('counts')
+        .update({ count: newCount })
+        .eq('id', existing.id);
+      if (error) throw error;
+    } else {
+      const { error } = await db
+        .from('counts')
+        .insert({
+          store_id: currentStore.id,
+          branch_number: currentBranch,
+          business_date: businessDate,
+          category: category,
+          count: newCount,
+          staff_id: staffId,
+        });
+      if (error) throw error;
+    }
     hideError();
   } catch (e) {
     counters[category] = newCount - delta;
     if (el) el.textContent = counters[category];
-    updateTotals();
     showError('保存に失敗しました: ' + e.message);
   }
-}
-
-function updateTotals() {
-  CATEGORIES.forEach(cat => {
-    const outKey = cat.items.find(i => i.direction === 'out').key;
-    const inKey = cat.items.find(i => i.direction === 'in').key;
-    const net = counters[outKey] - counters[inKey];
-    const el = document.getElementById(`net-${cat.colorClass}`);
-    if (el) el.textContent = net;
-  });
 }
 
 // ===========================================
@@ -1302,12 +1582,13 @@ function showLevelUp(label) {
 }
 
 // ===========================================
-// コマンド（集計レポート）
+// コマンド（メニュー + 担当者管理 + 集計レポート）
 // ===========================================
 let cmdStores = [];
 let cmdSelectedStoreIds = [];
 let cmdLastFormat = '';
 let cmdLastData = [];
+let cmdLastIncludeStaff = false;
 
 function openCommand() {
   if (!isConfigured) return;
@@ -1316,7 +1597,7 @@ function openCommand() {
   document.getElementById('cmdEndDate').value = today;
   document.getElementById('cmdStoreList').classList.add('hidden');
   cmdSelectedStoreIds = [];
-  cmdGoStep(1);
+  cmdGoStep(0);
   document.getElementById('cmdModal').classList.remove('hidden');
 }
 
@@ -1324,16 +1605,156 @@ function closeCommand() {
   document.getElementById('cmdModal').classList.add('hidden');
 }
 
-function cmdGoStep(n) {
-  for (let i = 1; i <= 4; i++) {
-    const el = document.getElementById(`cmdStep${i}`);
-    el.classList.toggle('active', i === n);
+function cmdGoStep(step) {
+  // Hide all steps
+  const allSteps = document.querySelectorAll('.cmd-step');
+  allSteps.forEach(s => s.classList.remove('active'));
+
+  // Map step names to IDs
+  const stepMap = {
+    0: 'cmdStep0',
+    1: 'cmdStep1',
+    2: 'cmdStep2',
+    3: 'cmdStep3',
+    4: 'cmdStep4',
+    'staff-list': 'cmdStepStaffList',
+    'staff-add': 'cmdStepStaffAdd',
+    'staff-edit': 'cmdStepStaffEdit',
+    'staff-option-cal': 'cmdStepStaffOptionCal',
+    'staff-option-rec': 'cmdStepStaffOptionRec',
+  };
+
+  const targetId = stepMap[step];
+  if (targetId) {
+    document.getElementById(targetId).classList.add('active');
   }
-  if (n === 2 && cmdStores.length === 0) {
+
+  // Load data when entering specific steps
+  if (step === 2 && cmdStores.length === 0) {
     cmdLoadStores();
+  }
+  if (step === 'staff-list') {
+    loadStaffList();
+  }
+  if (step === 'staff-add') {
+    document.getElementById('staffBarcodeInput').value = '';
+    document.getElementById('staffNicknameInput').value = '';
   }
 }
 
+// ===========================================
+// 担当者CRUD
+// ===========================================
+async function loadStaffList() {
+  if (!currentStore) return;
+  document.getElementById('staffMgmtStoreName').textContent = `店舗: ${currentStore.name}`;
+  const area = document.getElementById('staffListArea');
+  area.innerHTML = '<div style="color:#555577;padding:10px">読み込み中...</div>';
+
+  try {
+    const { data, error } = await db
+      .from('staff')
+      .select('*')
+      .eq('store_id', currentStore.id)
+      .order('nickname');
+    if (error) throw error;
+
+    if (!data || data.length === 0) {
+      area.innerHTML = '<div style="color:#555577;padding:10px">担当者がまだ登録されていません</div>';
+      return;
+    }
+
+    let html = '<table class="staff-table"><tr><th>バーコード</th><th>ニックネーム</th><th></th></tr>';
+    data.forEach(s => {
+      html += `<tr>
+        <td>${s.barcode}</td>
+        <td>${s.nickname}</td>
+        <td>
+          <button class="staff-action-btn" onclick="staffEditStart('${s.id}','${s.barcode.replace(/'/g, "\\'")}','${s.nickname.replace(/'/g, "\\'")}')">編集</button>
+          <button class="staff-action-btn del" onclick="staffDelete('${s.id}','${s.nickname.replace(/'/g, "\\'")}')">削除</button>
+        </td>
+      </tr>`;
+    });
+    html += '</table>';
+    area.innerHTML = html;
+  } catch (e) {
+    area.innerHTML = `<div style="color:#ff6b6b">エラー: ${e.message}</div>`;
+  }
+}
+
+async function staffSave() {
+  const barcode = document.getElementById('staffBarcodeInput').value.trim();
+  const nickname = document.getElementById('staffNicknameInput').value.trim();
+  if (!barcode || !nickname) { alert('バーコードとニックネームを入力してください'); return; }
+
+  try {
+    const { error } = await db.from('staff').insert({
+      store_id: currentStore.id,
+      barcode: barcode,
+      nickname: nickname,
+    });
+    if (error) throw error;
+    cmdGoStep('staff-list');
+  } catch (e) {
+    alert('登録失敗: ' + e.message);
+  }
+}
+
+function staffEditStart(id, barcode, nickname) {
+  document.getElementById('staffEditId').value = id;
+  document.getElementById('staffEditBarcodeInput').value = barcode;
+  document.getElementById('staffEditNicknameInput').value = nickname;
+  cmdGoStep('staff-edit');
+}
+
+async function staffUpdate() {
+  const id = document.getElementById('staffEditId').value;
+  const barcode = document.getElementById('staffEditBarcodeInput').value.trim();
+  const nickname = document.getElementById('staffEditNicknameInput').value.trim();
+  if (!barcode || !nickname) { alert('バーコードとニックネームを入力してください'); return; }
+
+  try {
+    const { error } = await db.from('staff').update({ barcode, nickname }).eq('id', id);
+    if (error) throw error;
+
+    // Update current staff if it was edited
+    if (currentStaff && currentStaff.id === id) {
+      currentStaff.nickname = nickname;
+      localStorage.setItem('gachi_counter_staff_nickname', nickname);
+      updateStoreDisplay();
+    }
+
+    cmdGoStep('staff-list');
+  } catch (e) {
+    alert('更新失敗: ' + e.message);
+  }
+}
+
+async function staffDelete(id, nickname) {
+  if (!confirm(`「${nickname}」を削除しますか？`)) return;
+
+  try {
+    const { error } = await db.from('staff').delete().eq('id', id);
+    if (error) throw error;
+
+    // Clear current staff if deleted
+    if (currentStaff && currentStaff.id === id) {
+      currentStaff = null;
+      localStorage.removeItem('gachi_counter_staff_id');
+      localStorage.removeItem('gachi_counter_staff_nickname');
+      updateStoreDisplay();
+      loadCounters();
+    }
+
+    loadStaffList();
+  } catch (e) {
+    alert('削除失敗: ' + e.message);
+  }
+}
+
+// ===========================================
+// 集計レポート
+// ===========================================
 async function cmdLoadStores() {
   try {
     const { data, error } = await db.from('stores').select('*').order('name');
@@ -1347,7 +1768,6 @@ async function cmdLoadStores() {
 function cmdSelectAllStores() {
   cmdSelectedStoreIds = cmdStores.map(s => s.id);
   document.getElementById('cmdStoreList').classList.add('hidden');
-  // Highlight that all stores selected
   const list = document.getElementById('cmdStoreList');
   list.querySelectorAll('input[type="checkbox"]').forEach(cb => cb.checked = true);
 }
@@ -1376,8 +1796,9 @@ function cmdShowStoreSelect() {
   });
 }
 
-async function cmdExecute(format) {
+async function cmdExecute(format, includeStaff) {
   cmdLastFormat = format;
+  cmdLastIncludeStaff = includeStaff;
   const startDate = document.getElementById('cmdStartDate').value;
   const endDate = document.getElementById('cmdEndDate').value;
   if (!startDate || !endDate) { alert('日付を入力してください'); return; }
@@ -1387,14 +1808,16 @@ async function cmdExecute(format) {
   document.getElementById('cmdResultArea').innerHTML = '<div style="color:#8888aa;padding:20px">読み込み中...</div>';
 
   try {
-    // Fetch data in chunks if many stores (Supabase .in() has limits)
     let allData = [];
     const chunkSize = 20;
     for (let i = 0; i < cmdSelectedStoreIds.length; i += chunkSize) {
       const chunk = cmdSelectedStoreIds.slice(i, i + chunkSize);
+      const selectFields = includeStaff
+        ? 'store_id, business_date, category, count, staff_id, staff(nickname)'
+        : 'store_id, business_date, category, count';
       const { data, error } = await db
         .from('counts')
-        .select('store_id, business_date, category, count')
+        .select(selectFields)
         .gte('business_date', startDate)
         .lte('business_date', endDate)
         .in('store_id', chunk);
@@ -1402,27 +1825,41 @@ async function cmdExecute(format) {
       if (data) allData = allData.concat(data);
     }
 
-    // Aggregate by store_id + business_date + category (sum across branches)
-    const agg = {};
-    allData.forEach(row => {
-      const key = `${row.store_id}|${row.business_date}|${row.category}`;
-      agg[key] = (agg[key] || 0) + row.count;
-    });
-
     // Build store name map
     const storeMap = {};
     cmdStores.forEach(s => { storeMap[s.id] = s.name; });
 
-    // Convert to array
-    cmdLastData = Object.entries(agg).map(([key, count]) => {
-      const [store_id, business_date, category] = key.split('|');
-      return { store_id, store_name: storeMap[store_id] || store_id, business_date, category, count };
-    });
+    if (includeStaff) {
+      // Aggregate by store + staff + date + category
+      const agg = {};
+      allData.forEach(row => {
+        const staffName = (row.staff && row.staff.nickname) ? row.staff.nickname : '（担当者なし）';
+        const key = `${row.store_id}|${staffName}|${row.business_date}|${row.category}`;
+        agg[key] = (agg[key] || 0) + row.count;
+      });
+
+      cmdLastData = Object.entries(agg).map(([key, count]) => {
+        const [store_id, staff_name, business_date, category] = key.split('|');
+        return { store_id, store_name: storeMap[store_id] || store_id, staff_name, business_date, category, count };
+      });
+    } else {
+      // Aggregate by store + date + category (original behavior)
+      const agg = {};
+      allData.forEach(row => {
+        const key = `${row.store_id}|${row.business_date}|${row.category}`;
+        agg[key] = (agg[key] || 0) + row.count;
+      });
+
+      cmdLastData = Object.entries(agg).map(([key, count]) => {
+        const [store_id, business_date, category] = key.split('|');
+        return { store_id, store_name: storeMap[store_id] || store_id, staff_name: null, business_date, category, count };
+      });
+    }
 
     if (format === 'calendar') {
-      renderCalendarReport(cmdLastData, startDate, endDate);
+      renderCalendarReport(cmdLastData, startDate, endDate, includeStaff);
     } else {
-      renderRecordReport(cmdLastData);
+      renderRecordReport(cmdLastData, includeStaff);
     }
   } catch (e) {
     document.getElementById('cmdResultArea').innerHTML = `<div style="color:#ff6b6b;padding:20px">エラー: ${e.message}</div>`;
@@ -1449,33 +1886,52 @@ function getDatesInRange(start, end) {
   return dates;
 }
 
-function renderCalendarReport(data, startDate, endDate) {
-  document.getElementById('cmdResultTitle').textContent = '📅 カレンダー形式';
+function renderCalendarReport(data, startDate, endDate, includeStaff) {
+  document.getElementById('cmdResultTitle').textContent = '📅 カレンダー形式' + (includeStaff ? '（担当者別）' : '');
   const dates = getDatesInRange(startDate, endDate);
   const catKeys = Object.keys(CATEGORY_LABELS);
 
-  // Group: storeMap[store_name][date][category] = count
+  // Row key: store_name or store_name + staff_name
+  const rowKeys = [];
   const grid = {};
-  const storeNames = [...new Set(data.map(d => d.store_name))].sort();
-  storeNames.forEach(name => {
-    grid[name] = {};
-    dates.forEach(date => { grid[name][date] = {}; });
-  });
-  data.forEach(row => {
-    if (grid[row.store_name] && grid[row.store_name][row.business_date]) {
-      grid[row.store_name][row.business_date][row.category] = row.count;
-    }
-  });
+  if (includeStaff) {
+    const rowSet = new Set();
+    data.forEach(d => {
+      const rk = `${d.store_name} / ${d.staff_name}`;
+      rowSet.add(rk);
+    });
+    [...rowSet].sort().forEach(rk => {
+      rowKeys.push(rk);
+      grid[rk] = {};
+      dates.forEach(date => { grid[rk][date] = {}; });
+    });
+    data.forEach(row => {
+      const rk = `${row.store_name} / ${row.staff_name}`;
+      if (grid[rk] && grid[rk][row.business_date]) {
+        grid[rk][row.business_date][row.category] = row.count;
+      }
+    });
+  } else {
+    const storeNames = [...new Set(data.map(d => d.store_name))].sort();
+    storeNames.forEach(name => {
+      rowKeys.push(name);
+      grid[name] = {};
+      dates.forEach(date => { grid[name][date] = {}; });
+    });
+    data.forEach(row => {
+      if (grid[row.store_name] && grid[row.store_name][row.business_date]) {
+        grid[row.store_name][row.business_date][row.category] = row.count;
+      }
+    });
+  }
 
   let html = '<div class="report-container"><table class="report-table">';
-  // Header: store | dates...
-  html += '<tr><th class="sticky-col">店舗</th>';
+  html += `<tr><th class="sticky-col">${includeStaff ? '店舗 / 担当者' : '店舗'}</th>`;
   dates.forEach(d => {
     const [, m, day] = d.split('-');
     html += `<th colspan="${catKeys.length}">${parseInt(m)}/${parseInt(day)}</th>`;
   });
   html += '</tr>';
-  // Sub-header: category short names per date
   html += '<tr><th class="sticky-col"></th>';
   dates.forEach(() => {
     catKeys.forEach(k => {
@@ -1483,12 +1939,11 @@ function renderCalendarReport(data, startDate, endDate) {
     });
   });
   html += '</tr>';
-  // Data rows
-  storeNames.forEach(name => {
-    html += `<tr><td class="sticky-col">${name}</td>`;
+  rowKeys.forEach(rk => {
+    html += `<tr><td class="sticky-col">${rk}</td>`;
     dates.forEach(date => {
       catKeys.forEach(k => {
-        const v = grid[name][date][k] || 0;
+        const v = grid[rk][date][k] || 0;
         html += `<td>${v || ''}</td>`;
       });
     });
@@ -1498,22 +1953,31 @@ function renderCalendarReport(data, startDate, endDate) {
   document.getElementById('cmdResultArea').innerHTML = html;
 }
 
-function renderRecordReport(data) {
-  document.getElementById('cmdResultTitle').textContent = '📋 レコード形式';
-  // Sort by store_name, date, category
+function renderRecordReport(data, includeStaff) {
+  document.getElementById('cmdResultTitle').textContent = '📋 レコード形式' + (includeStaff ? '（担当者別）' : '');
   const sorted = [...data].sort((a, b) =>
     a.store_name.localeCompare(b.store_name) ||
+    (a.staff_name || '').localeCompare(b.staff_name || '') ||
     a.business_date.localeCompare(b.business_date) ||
     a.category.localeCompare(b.category)
   );
 
   let html = '<div class="report-container"><table class="report-table">';
-  html += '<tr><th>店舗名</th><th>日付</th><th>カテゴリ</th><th>カウント</th></tr>';
-  sorted.forEach(row => {
-    const label = CATEGORY_LABELS[row.category] || row.category;
-    const [, m, d] = row.business_date.split('-');
-    html += `<tr><td>${row.store_name}</td><td>${parseInt(m)}/${parseInt(d)}</td><td>${label}</td><td>${row.count}</td></tr>`;
-  });
+  if (includeStaff) {
+    html += '<tr><th>店舗名</th><th>担当者</th><th>日付</th><th>カテゴリ</th><th>カウント</th></tr>';
+    sorted.forEach(row => {
+      const label = CATEGORY_LABELS[row.category] || row.category;
+      const [, m, d] = row.business_date.split('-');
+      html += `<tr><td>${row.store_name}</td><td>${row.staff_name}</td><td>${parseInt(m)}/${parseInt(d)}</td><td>${label}</td><td>${row.count}</td></tr>`;
+    });
+  } else {
+    html += '<tr><th>店舗名</th><th>日付</th><th>カテゴリ</th><th>カウント</th></tr>';
+    sorted.forEach(row => {
+      const label = CATEGORY_LABELS[row.category] || row.category;
+      const [, m, d] = row.business_date.split('-');
+      html += `<tr><td>${row.store_name}</td><td>${parseInt(m)}/${parseInt(d)}</td><td>${label}</td><td>${row.count}</td></tr>`;
+    });
+  }
   html += '</table></div>';
   document.getElementById('cmdResultArea').innerHTML = html;
 }
@@ -1521,54 +1985,70 @@ function renderRecordReport(data) {
 function cmdExportCSV() {
   if (cmdLastData.length === 0) { alert('データがありません'); return; }
   let csv = '\uFEFF'; // BOM
+  const includeStaff = cmdLastIncludeStaff;
+
   if (cmdLastFormat === 'calendar') {
     const startDate = document.getElementById('cmdStartDate').value;
     const endDate = document.getElementById('cmdEndDate').value;
     const dates = getDatesInRange(startDate, endDate);
     const catKeys = Object.keys(CATEGORY_LABELS);
-    const storeNames = [...new Set(cmdLastData.map(d => d.store_name))].sort();
 
-    // Build grid
+    // Build row keys and grid same as render
+    const rowKeys = [];
     const grid = {};
-    storeNames.forEach(name => {
-      grid[name] = {};
-      dates.forEach(date => { grid[name][date] = {}; });
-    });
-    cmdLastData.forEach(row => {
-      if (grid[row.store_name] && grid[row.store_name][row.business_date]) {
-        grid[row.store_name][row.business_date][row.category] = row.count;
-      }
-    });
-
-    // Header row 1
-    csv += '店舗';
-    dates.forEach(d => {
-      catKeys.forEach((k, i) => csv += `,${i === 0 ? d : ''}`);
-    });
-    csv += '\n';
-    // Header row 2
-    csv += '';
-    dates.forEach(() => {
-      catKeys.forEach(k => csv += `,${CATEGORY_LABELS[k]}`);
-    });
-    csv += '\n';
-    // Data
-    storeNames.forEach(name => {
-      csv += name;
-      dates.forEach(date => {
-        catKeys.forEach(k => csv += `,${grid[name][date][k] || 0}`);
+    if (includeStaff) {
+      const rowSet = new Set();
+      cmdLastData.forEach(d => rowSet.add(`${d.store_name} / ${d.staff_name}`));
+      [...rowSet].sort().forEach(rk => {
+        rowKeys.push(rk);
+        grid[rk] = {};
+        dates.forEach(date => { grid[rk][date] = {}; });
       });
+      cmdLastData.forEach(row => {
+        const rk = `${row.store_name} / ${row.staff_name}`;
+        if (grid[rk] && grid[rk][row.business_date]) grid[rk][row.business_date][row.category] = row.count;
+      });
+    } else {
+      const storeNames = [...new Set(cmdLastData.map(d => d.store_name))].sort();
+      storeNames.forEach(name => {
+        rowKeys.push(name);
+        grid[name] = {};
+        dates.forEach(date => { grid[name][date] = {}; });
+      });
+      cmdLastData.forEach(row => {
+        if (grid[row.store_name] && grid[row.store_name][row.business_date]) grid[row.store_name][row.business_date][row.category] = row.count;
+      });
+    }
+
+    csv += includeStaff ? '店舗/担当者' : '店舗';
+    dates.forEach(d => { catKeys.forEach((k, i) => csv += `,${i === 0 ? d : ''}`); });
+    csv += '\n';
+    csv += '';
+    dates.forEach(() => { catKeys.forEach(k => csv += `,${CATEGORY_LABELS[k]}`); });
+    csv += '\n';
+    rowKeys.forEach(rk => {
+      csv += rk;
+      dates.forEach(date => { catKeys.forEach(k => csv += `,${grid[rk][date][k] || 0}`); });
       csv += '\n';
     });
   } else {
-    csv += '店舗名,日付,カテゴリ,カウント\n';
+    if (includeStaff) {
+      csv += '店舗名,担当者,日付,カテゴリ,カウント\n';
+    } else {
+      csv += '店舗名,日付,カテゴリ,カウント\n';
+    }
     const sorted = [...cmdLastData].sort((a, b) =>
       a.store_name.localeCompare(b.store_name) ||
+      (a.staff_name || '').localeCompare(b.staff_name || '') ||
       a.business_date.localeCompare(b.business_date) ||
       a.category.localeCompare(b.category)
     );
     sorted.forEach(row => {
-      csv += `${row.store_name},${row.business_date},${CATEGORY_LABELS[row.category] || row.category},${row.count}\n`;
+      if (includeStaff) {
+        csv += `${row.store_name},${row.staff_name},${row.business_date},${CATEGORY_LABELS[row.category] || row.category},${row.count}\n`;
+      } else {
+        csv += `${row.store_name},${row.business_date},${CATEGORY_LABELS[row.category] || row.category},${row.count}\n`;
+      }
     });
   }
 
