@@ -2558,7 +2558,7 @@ function discAmountChanged() {
   else disp.innerHTML = `<div class="disc-amount-display disc-amount-shortage">${Math.abs(num).toLocaleString()}円不足</div>`;
   // 10,000円超チェック
   const warn = document.getElementById('discAmountWarning');
-  if (Math.abs(num) > 10000) {
+  if (Math.abs(num) >= 10000) {
     warn.innerHTML = '<div class="disc-warning-box"><p>⚠️ ワークフローで、<br>事故報告書を出してください！</p></div>';
   } else {
     warn.innerHTML = '';
